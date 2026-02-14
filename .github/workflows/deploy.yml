@@ -31,14 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: |
-          REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)
-          if [ "$REPO_NAME" = "$(echo $GITHUB_REPOSITORY | cut -d '/' -f 1).github.io" ]; then
-            export VITE_BASE_URL="/"
-          else
-            export VITE_BASE_URL="/$REPO_NAME/"
-          fi
-          npm run build
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
