@@ -19,7 +19,7 @@ const games = [
     description: "レトロ風ピクセルアートの2Dアクションゲーム。様々なステージを冒険しよう！",
     category: "Action",
     rating: 4.8,
-    downloads: 1250,
+    price: 500,
     image: "🎮",
     tags: ["2D", "Pixel Art", "Platformer"],
     color: "from-purple-400 to-pink-400",
@@ -33,7 +33,7 @@ const games = [
     description: "宇宙を舞台にしたシューティングゲーム。迫りくる敵を撃ち落とせ！",
     category: "Shooter",
     rating: 4.6,
-    downloads: 890,
+    price: 300,
     image: "🚀",
     tags: ["Shooting", "Space", "Bullet Hell"],
     color: "from-cyan-400 to-blue-400",
@@ -47,7 +47,7 @@ const games = [
     description: "脳を鍛えるパズルゲーム集。論理的思考で難問を解き明かせ！",
     category: "Puzzle",
     rating: 4.9,
-    downloads: 2100,
+    price: 0,
     image: "🧩",
     tags: ["Puzzle", "Logic", "Brain Training"],
     color: "from-emerald-400 to-teal-400",
@@ -61,7 +61,7 @@ const games = [
     description: "ファンタジー世界を舞台にした王道RPG。勇者となって世界を救え！",
     category: "RPG",
     rating: 4.7,
-    downloads: 1560,
+    price: 800,
     image: "⚔️",
     tags: ["RPG", "Fantasy", "Story"],
     color: "from-amber-400 to-orange-400",
@@ -75,7 +75,7 @@ const games = [
     description: "音楽に合わせてリズムを刻む音ゲー。豊富な楽曲で遊ぼう！",
     category: "Rhythm",
     rating: 4.5,
-    downloads: 720,
+    price: 600,
     image: "🎵",
     tags: ["Rhythm", "Music", "Casual"],
     color: "from-rose-400 to-red-400",
@@ -89,7 +89,7 @@ const games = [
     description: "戦略的なタワーディフェンスゲーム。敵の侵攻を防ぎきれ！",
     category: "Strategy",
     rating: 4.4,
-    downloads: 980,
+    price: 400,
     image: "🏰",
     tags: ["Strategy", "Tower Defense", "Tactical"],
     color: "from-indigo-400 to-violet-400",
@@ -106,7 +106,7 @@ const tools = [
     title: "Image Converter",
     description: "様々な画像フォーマットを簡単に変換できるツール。バッチ処理にも対応。",
     category: "Utility",
-    downloads: 3200,
+    price: 0,
     icon: "🖼️",
     features: ["Batch Convert", "20+ Formats", "Resize"],
     color: "from-emerald-400 to-teal-400",
@@ -120,7 +120,7 @@ const tools = [
     title: "Text Editor Pro",
     description: "シンプルかつ高機能なテキストエディタ。プログラミングにも最適。",
     category: "Productivity",
-    downloads: 1850,
+    price: 500,
     icon: "📝",
     features: ["Syntax Highlight", "Auto Save", "Plugins"],
     color: "from-blue-400 to-indigo-400",
@@ -134,7 +134,7 @@ const tools = [
     title: "File Organizer",
     description: "ファイルを自動で整理・分類してくれる便利ツール。",
     category: "Utility",
-    downloads: 980,
+    price: 300,
     icon: "📁",
     features: ["Auto Sort", "Duplicate Detection", "Rules"],
     color: "from-amber-400 to-yellow-400",
@@ -148,7 +148,7 @@ const tools = [
     title: "Color Picker",
     description: "画面から色を抽出し、パレットを作成できるデザイナー向けツール。",
     category: "Design",
-    downloads: 2450,
+    price: 0,
     icon: "🎨",
     features: ["Screen Pick", "Palette Export", "Harmony"],
     color: "from-pink-400 to-rose-400",
@@ -162,7 +162,7 @@ const tools = [
     title: "Password Manager",
     description: "安全にパスワードを管理できるローカル型パスワードマネージャー。",
     category: "Security",
-    downloads: 1120,
+    price: 800,
     icon: "🔐",
     features: ["Encryption", "Generator", "Auto Fill"],
     color: "from-violet-400 to-purple-400",
@@ -176,7 +176,7 @@ const tools = [
     title: "System Monitor",
     description: "PCのパフォーマンスをリアルタイムで監視できるツール。",
     category: "System",
-    downloads: 780,
+    price: 200,
     icon: "📊",
     features: ["CPU/GPU/RAM", "Temperature", "Alerts"],
     color: "from-cyan-400 to-sky-400",
@@ -271,7 +271,9 @@ function WorkDetailDialog({
             )}
 
             <div className="flex items-center gap-4 text-sm text-slate-500 pt-4 border-t">
-              <span>ダウンロード数: {work.downloads.toLocaleString()}</span>
+              <span className="font-bold text-cyan-600 text-base">
+                {work.price === 0 ? "無料" : `¥${work.price.toLocaleString()}`}
+              </span>
               {work.rating && <span>評価: ★ {work.rating}</span>}
             </div>
           </TabsContent>
@@ -408,7 +410,7 @@ function WorksPage() {
                 {games.map((game) => (
                   <motion.div key={game.id} variants={itemVariants}>
                     <Card 
-                      className="group bg-white border-slate-200 hover:border-cyan-300 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-100 overflow-hidden cursor-pointer"
+                      className="group bg-white border-slate-200 hover:border-cyan-300 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-100 overflow-hidden cursor-pointer h-full flex flex-col"
                       onClick={() => setSelectedGame(game)}
                     >
                       <div className={`h-40 bg-gradient-to-br ${game.color} relative overflow-hidden`}>
@@ -440,7 +442,7 @@ function WorksPage() {
                         </CardDescription>
                       </CardHeader>
 
-                      <CardContent className="pb-3">
+                      <CardContent className="pb-3 flex-grow">
                         <div className="flex flex-wrap gap-2">
                           {game.tags.slice(0, 3).map((tag) => (
                             <Badge key={tag} variant="outline" className="text-xs border-cyan-200 text-cyan-600">
@@ -450,9 +452,9 @@ function WorksPage() {
                         </div>
                       </CardContent>
 
-                      <CardFooter className="flex items-center justify-between pt-3 border-t border-slate-100">
-                        <span className="text-sm text-slate-500">
-                          DL: {game.downloads.toLocaleString()}
+                      <CardFooter className="flex items-center justify-between pt-3 border-t border-slate-100 mt-auto">
+                        <span className="text-sm font-bold text-cyan-600">
+                          {game.price === 0 ? "無料" : `¥${game.price.toLocaleString()}`}
                         </span>
                         <Button size="sm" className="bg-cyan-100 text-cyan-600 hover:bg-cyan-500 hover:text-white transition-all">
                           <ExternalLink className="w-4 h-4 mr-1" />
@@ -512,9 +514,9 @@ function WorksPage() {
                         </div>
                       </CardContent>
 
-                      <CardFooter className="flex items-center justify-between pt-3 border-t border-slate-100">
-                        <span className="text-sm text-slate-500">
-                          DL: {tool.downloads.toLocaleString()}
+                      <CardFooter className="flex items-center justify-between pt-3 border-t border-slate-100 mt-auto">
+                        <span className="text-sm font-bold text-cyan-600">
+                          {tool.price === 0 ? "無料" : `¥${tool.price.toLocaleString()}`}
                         </span>
                         <Button size="sm" className="bg-cyan-100 text-cyan-600 hover:bg-cyan-500 hover:text-white transition-all">
                           <ExternalLink className="w-4 h-4 mr-1" />
