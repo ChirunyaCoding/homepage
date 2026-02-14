@@ -35,7 +35,7 @@ export function Hero() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="relative"
           >
-            <div className="relative w-72 h-96 lg:w-96 lg:h-[500px]">
+            <div className="relative w-80 h-[450px] lg:w-[450px] lg:h-[600px]">
               {/* Glow Effect Behind Character */}
               <div className="absolute inset-0 bg-gradient-to-t from-cyan-200/40 via-transparent to-transparent rounded-full blur-2xl scale-110" />
               
