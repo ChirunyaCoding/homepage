@@ -5,6 +5,7 @@ import { Sparkles, Youtube, Twitter, Github, Gamepad2, Wrench, ChevronRight } fr
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Navigation } from "@/components/Navigation";
+import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { Footer } from "@/sections/Footer";
 import "@/index.css";
 
@@ -40,6 +41,8 @@ function HomePage() {
       <Navigation />
       
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-cyan-50/50 via-white to-white">
+        <ParticlesBackground />
+
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-200/30 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-200/30 rounded-full blur-3xl" />
