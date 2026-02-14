@@ -29,9 +29,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check vite config
-        run: cat vite.config.ts
-
       - name: Build
         run: npm run build
 
