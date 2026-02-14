@@ -9,26 +9,36 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/sections/Footer";
 import "@/index.css";
 
-const youtubeChannels = [
+const favoriteChannels = [
   {
     id: 1,
-    name: "Chihalu Game Dev",
-    description: "ゲーム開発の過程や技術解説を発信しています",
-    subscribers: "1.2K",
-    videos: 45,
+    name: "好きなチャンネル1",
+    description: "ここにチャンネルの説明を入力してください",
+    subscribers: "10万",
+    videos: 200,
     url: "#",
     thumbnail: "🎮",
     color: "from-red-500 to-rose-500",
   },
   {
     id: 2,
-    name: "Chihalu Vlog",
-    description: "日常や制作の裏側をお届けします",
-    subscribers: "850",
-    videos: 28,
+    name: "好きなチャンネル2",
+    description: "ここにチャンネルの説明を入力してください",
+    subscribers: "5万",
+    videos: 150,
     url: "#",
     thumbnail: "📹",
     color: "from-cyan-500 to-sky-500",
+  },
+  {
+    id: 3,
+    name: "好きなチャンネル3",
+    description: "ここにチャンネルの説明を入力してください",
+    subscribers: "20万",
+    videos: 300,
+    url: "#",
+    thumbnail: "🎨",
+    color: "from-purple-500 to-pink-500",
   },
 ];
 
@@ -120,8 +130,8 @@ function YouTubePage() {
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-rose-500">チャンネル</span>
             </h1>
             <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-              私が運営しているYouTubeチャンネルや、
-              おすすめのクリエイターチャンネルを紹介します。
+              いつも楽しく見させていただいている、
+              おすすめのYouTubeチャンネルを紹介します。
             </p>
           </motion.div>
 
@@ -132,11 +142,11 @@ function YouTubePage() {
           >
             <h2 className="text-xl font-bold text-slate-700 mb-6 flex items-center gap-2">
               <Play className="w-5 h-5 text-red-500" />
-              マイチャンネル
+              いつも見ているチャンネル
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {youtubeChannels.map((channel) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {favoriteChannels.map((channel) => (
                 <motion.div
                   key={channel.id}
                   whileHover={{ scale: 1.02 }}
