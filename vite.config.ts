@@ -1,0 +1,24 @@
+import path from 'path'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  base: process.env.VITE_BASE_URL || './',
+  plugins: [react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        games: path.resolve(__dirname, 'games/index.html'),
+        tools: path.resolve(__dirname, 'tools/index.html'),
+        youtube: path.resolve(__dirname, 'youtube/index.html'),
+        about: path.resolve(__dirname, 'about/index.html'),
+      },
+    },
+  },
+})
