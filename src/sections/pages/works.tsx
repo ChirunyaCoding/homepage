@@ -623,12 +623,12 @@ function WorksPage() {
               </TabsTrigger>
               <TabsTrigger value="model-assets" className="flex items-center gap-2 text-xs sm:text-sm">
                 <Package className="w-4 h-4" />
-                <span className="hidden md:inline">3D Model Asset</span>
+                <span className="hidden md:inline">3Dアセット</span>
                 <span className="md:hidden">3D Asset</span>
               </TabsTrigger>
               <TabsTrigger value="blender-addons" className="flex items-center gap-2 text-xs sm:text-sm">
                 <Wrench className="w-4 h-4" />
-                <span className="hidden md:inline">Blender Addon</span>
+                <span className="hidden md:inline">Blenderアドオン</span>
                 <span className="md:hidden">Addon</span>
               </TabsTrigger>
             </TabsList>

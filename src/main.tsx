@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { motion } from "framer-motion";
-import { Sparkles, Youtube, Twitter, Github, Gamepad2, Wrench, ChevronRight } from "lucide-react";
+import { Sparkles, Youtube, Twitter, Github, Gamepad2, Wrench, ChevronRight, MapPin, Code2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Navigation } from "@/components/Navigation";
@@ -33,6 +33,19 @@ const features = [
     href: `${baseUrl}youtube/`,
     color: "from-red-400 to-rose-400",
   },
+];
+
+const profileActivities = [
+  { icon: Gamepad2, label: "ゲーム開発" },
+  { icon: Code2, label: "プログラミング" },
+  { icon: Youtube, label: "YouTube" },
+];
+
+const profileSocialLinks = [
+  { name: "YouTube", icon: Youtube, href: `${baseUrl}youtube/`, color: "from-red-500 to-rose-500" },
+  { name: "Twitter", icon: Twitter, href: "#", color: "from-sky-400 to-blue-500" },
+  { name: "GitHub", icon: Github, href: "#", color: "from-slate-500 to-slate-700" },
+  { name: "Email", icon: Mail, href: "#", color: "from-cyan-400 to-sky-500" },
 ];
 
 function HomePage() {
@@ -120,9 +133,7 @@ function HomePage() {
                 transition={{ delay: 0.5 }}
                 className="text-lg text-slate-500 mb-8 leading-relaxed"
               >
-                ゲーム開発者 / プログラマー / YouTuber
-                <br />
-                自作ゲーム・ツールの配布や活動記録を残しています。
+                自作ゲーム・ツール等の販売や活動記録を残しています。
               </motion.p>
 
               <motion.div
@@ -168,6 +179,71 @@ function HomePage() {
               </motion.div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <Card className="bg-white border-cyan-100 shadow-lg shadow-cyan-50 overflow-hidden rounded-2xl">
+              <CardContent className="p-8">
+                <div className="flex items-center gap-6 mb-6">
+                  <div className="relative">
+                    <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-400 to-sky-500 p-1">
+                      <div className="w-full h-full rounded-xl bg-white flex items-center justify-center overflow-hidden">
+                        <img src={`${baseUrl}avatar.png`} alt="Avatar" className="w-full h-full object-cover" />
+                      </div>
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-emerald-400 rounded-full border-4 border-white flex items-center justify-center">
+                      <div className="w-2 h-2 bg-white rounded-full" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-700">Chihalu</h3>
+                    <p className="text-slate-500">Indie Game Developer</p>
+                    <div className="flex items-center gap-2 mt-2 text-sm text-slate-400">
+                      <MapPin className="w-4 h-4" />
+                      <span>Japan</span>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-slate-500 leading-relaxed mb-6">
+                  こんにちは！Chihaluです。小さい頃からゲームが大好きで、中学生の頃から独学でプログラミングを始めました。
+                  現在はUnityをメインに使用し、様々なジャンルのゲームを制作・配布しています。YouTubeではゲーム開発の過程や技術解説を発信しています。
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+                  {profileActivities.map((activity) => (
+                    <div key={activity.label} className="text-center p-3 rounded-xl bg-cyan-50 border border-cyan-100">
+                      <activity.icon className="w-6 h-6 text-cyan-500 mx-auto mb-2" />
+                      <div className="text-sm font-medium text-slate-700">{activity.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  {profileSocialLinks.map((link) => (
+                    <motion.a
+                      key={link.name}
+                      href={link.href}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r ${link.color} text-white text-sm font-medium shadow-md`}
+                    >
+                      <link.icon className="w-5 h-5" />
+                      {link.name}
+                    </motion.a>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
