@@ -105,78 +105,92 @@ function HomePage() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center lg:text-left max-w-xl"
+              className="w-full max-w-xl"
             >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-100 border border-cyan-200 mb-6"
-              >
-                <Sparkles className="w-4 h-4 text-cyan-500" />
-                <span className="text-sm text-cyan-600 font-medium">Welcome to my page!</span>
-              </motion.div>
+              <div className="relative overflow-hidden rounded-[28px] border border-cyan-100/80 bg-white/75 backdrop-blur-xl p-8 lg:p-10 text-center lg:text-left shadow-[0_25px_70px_-35px_rgba(14,165,233,0.65)]">
+                <div className="pointer-events-none absolute -top-16 -right-12 h-40 w-40 rounded-full bg-cyan-200/40 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-14 -left-10 h-36 w-36 rounded-full bg-rose-200/30 blur-3xl" />
 
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-4xl lg:text-6xl font-bold mb-6"
-              >
-                <span className="text-slate-700">Chihalu</span>
-                <span className="text-gradient">Studio</span>
-              </motion.h1>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-100 to-sky-100 border border-cyan-200/80 mb-6 shadow-sm"
+                >
+                  <Sparkles className="w-4 h-4 text-cyan-500" />
+                  <span className="text-sm text-cyan-700 font-semibold tracking-wide">Welcome to my page!</span>
+                </motion.div>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="text-lg text-slate-500 mb-8 leading-relaxed"
-              >
-                自作ゲーム・ツール等の販売や活動記録を残しています。
-              </motion.p>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="relative text-5xl lg:text-6xl font-black mb-5 tracking-tight"
+                >
+                  <span className="text-slate-700">Chihalu</span>
+                  <span className="bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-500 bg-clip-text text-transparent ml-1">
+                    Studio
+                  </span>
+                </motion.h1>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-              >
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="relative text-lg text-slate-500 mb-8 leading-relaxed"
+                >
+                  自作ゲーム・ツール等の販売や活動記録を残しています。
+                </motion.p>
 
-                <a href={`${baseUrl}about/`}>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-cyan-300 text-cyan-600 hover:bg-cyan-50 hover:border-cyan-400"
-                  >
-                    プロフィール
-                    <ChevronRight className="w-5 h-5 ml-1" />
-                  </Button>
-                </a>
-              </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="relative flex flex-col sm:flex-row gap-3 justify-center lg:justify-start"
+                >
+                  <a href={`${baseUrl}about/`}>
+                    <Button
+                      size="lg"
+                      className="rounded-xl bg-gradient-to-r from-cyan-500 to-sky-500 text-white shadow-lg shadow-cyan-200 hover:from-cyan-600 hover:to-sky-600"
+                    >
+                      プロフィール
+                      <ChevronRight className="w-5 h-5 ml-1" />
+                    </Button>
+                  </a>
+                  <a href={`${baseUrl}works/`}>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="rounded-xl border-cyan-200 bg-white/80 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-300"
+                    >
+                      作品を見る
+                    </Button>
+                  </a>
+                </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-                className="flex gap-4 mt-8 justify-center lg:justify-start"
-              >
-                {[
-                  { icon: Youtube, href: `${baseUrl}youtube/` },
-                  { icon: Twitter, href: "#" },
-                  { icon: Github, href: "#" },
-                ].map((social) => (
-                  <motion.a
-                    key={social.icon.name}
-                    href={social.href}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-cyan-500 hover:border-cyan-300 hover:shadow-lg hover:shadow-cyan-100 transition-all"
-                  >
-                    <social.icon className="w-5 h-5" />
-                  </motion.a>
-                ))}
-              </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                  className="relative flex gap-3 mt-7 justify-center lg:justify-start"
+                >
+                  {[
+                    { icon: Youtube, href: `${baseUrl}youtube/`, accent: "hover:border-red-300 hover:bg-red-50 hover:text-red-500" },
+                    { icon: Twitter, href: "#", accent: "hover:border-sky-300 hover:bg-sky-50 hover:text-sky-500" },
+                    { icon: Github, href: "#", accent: "hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700" },
+                  ].map((social) => (
+                    <motion.a
+                      key={social.icon.name}
+                      href={social.href}
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`group w-12 h-12 rounded-xl border border-slate-200/80 bg-white/80 backdrop-blur flex items-center justify-center text-slate-400 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${social.accent}`}
+                    >
+                      <social.icon className="w-5 h-5" />
+                    </motion.a>
+                  ))}
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </div>
