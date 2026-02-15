@@ -62,7 +62,7 @@ function HomePage() {
           <ParticlesBackground />
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 pt-16 pb-8 lg:pt-20 lg:pb-10">
+        <div className="relative z-10 container mx-auto px-4 pt-28 pb-8 lg:pt-32 lg:pb-10">
           <div className="flex flex-col lg:flex-row items-center justify-center gap-14 lg:gap-24">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
