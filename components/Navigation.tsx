@@ -33,7 +33,7 @@ export function Navigation() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white/80 backdrop-blur-xl border-b border-cyan-200/50 shadow-sm"
+            ? "bg-white/80 backdrop-blur-xl border-b border-cyan-200/50"
             : "bg-transparent"
         }`}
       >
@@ -46,7 +46,7 @@ export function Navigation() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-sky-500 flex items-center justify-center shadow-lg shadow-cyan-200">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-sky-500 flex items-center justify-center">
                 <span className="text-white font-bold text-lg">C</span>
               </div>
               <span className="font-bold text-lg hidden sm:block">
