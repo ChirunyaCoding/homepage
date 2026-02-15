@@ -122,6 +122,7 @@ function RecordsPage() {
   const [records, setRecords] = useState<GrowthRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRecord, setSelectedRecord] = useState<GrowthRecord | null>(null);
+  const [selectedImagePreview, setSelectedImagePreview] = useState<{ src: string; alt: string } | null>(null);
   const [mediaTab, setMediaTab] = useState<MediaTab>("images");
   const [currentPage, setCurrentPage] = useState(() => {
     if (typeof window === "undefined") return 1;
@@ -366,7 +367,7 @@ function RecordsPage() {
       </section>
 
       <Dialog open={Boolean(selectedRecord)} onOpenChange={(open) => !open && setSelectedRecord(null)}>
-        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[min(96vw,1400px)] max-h-[92vh] overflow-y-auto p-8">
           {selectedRecord && (
             <>
               <DialogHeader>
@@ -391,9 +392,19 @@ function RecordsPage() {
                   {selectedRecord.images.length === 0 ? (
                     <p className="text-slate-500 text-sm">画像はありません。</p>
                   ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {selectedRecord.images.map((image, index) => (
-                        <div key={`${image}-${index}`} className="rounded-lg overflow-hidden border border-cyan-100 bg-slate-50">
+                        <button
+                          key={`${image}-${index}`}
+                          type="button"
+                          className="rounded-lg overflow-hidden border border-cyan-100 bg-slate-50 text-left hover:border-cyan-300 transition-colors"
+                          onClick={() =>
+                            setSelectedImagePreview({
+                              src: resolveImageSrc(baseUrl, image),
+                              alt: `${selectedRecord.title} image ${index + 1}`,
+                            })
+                          }
+                        >
                           <div className="aspect-video">
                             <img
                               src={resolveImageSrc(baseUrl, image)}
@@ -401,8 +412,8 @@ function RecordsPage() {
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <div className="px-3 py-2 text-xs text-slate-500">画像 {index + 1}</div>
-                        </div>
+                          <div className="px-3 py-2 text-xs text-slate-500">画像 {index + 1}（クリックで拡大）</div>
+                        </button>
                       ))}
                     </div>
                   )}
@@ -435,6 +446,18 @@ function RecordsPage() {
                 </TabsContent>
               </Tabs>
             </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={Boolean(selectedImagePreview)} onOpenChange={(open) => !open && setSelectedImagePreview(null)}>
+        <DialogContent className="max-w-[98vw] max-h-[96vh] bg-white p-3">
+          {selectedImagePreview && (
+            <img
+              src={selectedImagePreview.src}
+              alt={selectedImagePreview.alt}
+              className="w-auto h-auto max-w-[95vw] max-h-[90vh] object-contain mx-auto rounded-md"
+            />
           )}
         </DialogContent>
       </Dialog>
