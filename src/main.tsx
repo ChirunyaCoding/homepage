@@ -11,6 +11,7 @@ import { Footer } from "@/sections/Footer";
 import "@/index.css";
 
 const baseUrl = import.meta.env.BASE_URL || "/";
+const youtubeChannelUrl = "https://www.youtube.com/@%E3%81%A1%E3%81%AF%E3%82%8B21";
 
 const features = [
   {
@@ -31,7 +32,7 @@ const features = [
     icon: Youtube,
     title: "YouTube",
     description: "動画チャンネル",
-    href: `${baseUrl}youtube/`,
+    href: youtubeChannelUrl,
     color: "from-red-400 to-rose-400",
   },
   {
@@ -44,7 +45,7 @@ const features = [
 ];
 
 const profileSocialLinks = [
-  { name: "YouTube", icon: Youtube, href: `${baseUrl}youtube/`, color: "from-red-500 to-rose-500" },
+  { name: "YouTube", icon: Youtube, href: youtubeChannelUrl, color: "from-red-500 to-rose-500" },
   { name: "X", icon: Twitter, href: "https://x.com/ChihaluCoding", color: "from-sky-400 to-blue-500" },
   { name: "GitHub", icon: Github, href: "https://github.com/ChihaluCoding", color: "from-slate-500 to-slate-700" },
   { name: "Email", icon: Mail, href: "#", color: "from-cyan-400 to-sky-500" },
@@ -169,7 +170,7 @@ function HomePage() {
                   className="relative flex gap-3 mt-7 justify-center lg:justify-start"
                 >
                   {[
-                    { icon: Youtube, href: `${baseUrl}youtube/`, accent: "hover:border-red-300 hover:bg-red-50 hover:text-red-500" },
+                    { icon: Youtube, href: youtubeChannelUrl, accent: "hover:border-red-300 hover:bg-red-50 hover:text-red-500" },
                     { icon: Twitter, href: "https://x.com/ChihaluCoding", accent: "hover:border-sky-300 hover:bg-sky-50 hover:text-sky-500" },
                     { icon: Github, href: "https://github.com/ChihaluCoding", accent: "hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700" },
                   ].map((social) => (
