@@ -463,7 +463,7 @@ function RecordsPage() {
                 className="block w-auto h-auto max-w-[96vw] max-h-[92vh] object-contain rounded-md"
               />
 
-              <DialogClose className="absolute top-2 right-2 z-10 rounded-md bg-white/90 border border-slate-200 p-1.5 text-slate-600 hover:bg-white">
+              <DialogClose className="absolute -top-11 right-0 z-10 rounded-md bg-white/95 border border-slate-200 p-1.5 text-slate-600 hover:bg-white">
                 <X className="w-5 h-5" />
                 <span className="sr-only">Close</span>
               </DialogClose>
