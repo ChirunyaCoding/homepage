@@ -10,6 +10,7 @@ import { Footer } from "@/sections/Footer";
 import "@/index.css";
 
 const ITEMS_PER_PAGE = 15;
+const AUTO_SLIDE_INTERVAL_MS = 5000;
 
 type GrowthRecord = {
   id: number;
@@ -133,7 +134,7 @@ function RecordCardMedia({
 
     const timerId = window.setInterval(() => {
       setActiveImageIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
+    }, AUTO_SLIDE_INTERVAL_MS);
 
     return () => window.clearInterval(timerId);
   }, [images]);
