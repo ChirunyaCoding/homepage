@@ -2,7 +2,7 @@
   "games": [
     {
       "id": 2,
-      "title": "317号室（開発中）",
+      "title": "317号室",
       "description": "（開発中）",
       "category": "ホラー",
       "rating": 0.0,
@@ -12,7 +12,8 @@
       "color": "from-purple-400 to-pink-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": []
+      "screenshots": [],
+      "inDevelopment": true
     }
   ],
   "tools": [],

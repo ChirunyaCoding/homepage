@@ -198,10 +198,7 @@ function WorkDetailDialog({
 
   const trailerUrls = work.trailerUrls ?? [];
   const screenshots = work.screenshots ?? [];
-  const isInDevelopment =
-    work.inDevelopment ||
-    work.title.includes("開発中") ||
-    work.description.includes("開発中");
+  const isInDevelopment = work.inDevelopment;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
