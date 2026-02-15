@@ -334,18 +334,6 @@ function RecordsPage() {
                       <CardContent className="p-5">
                         <h3 className="text-lg font-bold text-slate-700 mb-2">{item.title}</h3>
                         <p className="text-slate-500 leading-relaxed">{item.description}</p>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {item.images.length > 0 && (
-                            <span className="px-2 py-1 rounded-md bg-cyan-50 border border-cyan-100 text-xs text-cyan-700">
-                              画像 {item.images.length}件
-                            </span>
-                          )}
-                          {item.youtubeUrls.length > 0 && (
-                            <span className="px-2 py-1 rounded-md bg-red-50 border border-red-100 text-xs text-red-700">
-                              動画 {item.youtubeUrls.length}件
-                            </span>
-                          )}
-                        </div>
                       </CardContent>
                     </Card>
                   </motion.div>

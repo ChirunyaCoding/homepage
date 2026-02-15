@@ -57,12 +57,12 @@ function HomePage() {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <section className="relative min-h-[95vh] flex items-center justify-center overflow-hidden bg-white">
+      <section className="relative min-h-[78vh] lg:min-h-[82vh] flex items-start justify-center overflow-hidden bg-white">
         <div className="absolute inset-0 z-0">
           <ParticlesBackground />
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 py-20 lg:py-24">
+        <div className="relative z-10 container mx-auto px-4 pt-10 pb-8 lg:pt-14 lg:pb-10">
           <div className="flex flex-col lg:flex-row items-center justify-center gap-14 lg:gap-24">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -190,7 +190,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="py-12 bg-white">
+      <section className="relative -mt-6 lg:-mt-10 pt-0 pb-12 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
