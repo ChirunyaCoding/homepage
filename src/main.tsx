@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { motion } from "framer-motion";
-import { Sparkles, Youtube, Twitter, Github, Gamepad2, Wrench, ChevronRight, MapPin, Code2, Mail, BookOpen } from "lucide-react";
+import { Sparkles, Youtube, Twitter, Github, Gamepad2, Wrench, ChevronRight, MapPin, Mail, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -41,12 +41,6 @@ const features = [
     href: `${baseUrl}records/`,
     color: "from-indigo-400 to-cyan-400",
   },
-];
-
-const profileActivities = [
-  { icon: Gamepad2, label: "ゲーム開発" },
-  { icon: Code2, label: "プログラミング" },
-  { icon: Youtube, label: "YouTube" },
 ];
 
 const profileSocialLinks = [
@@ -148,12 +142,12 @@ function HomePage() {
                   transition={{ delay: 0.6 }}
                   className="relative flex flex-col sm:flex-row gap-3 justify-center lg:justify-start"
                 >
-                  <a href={`${baseUrl}about/`}>
+                  <a href={`${baseUrl}records/`}>
                     <Button
                       size="lg"
                       className="rounded-xl bg-gradient-to-r from-cyan-500 to-sky-500 text-white hover:from-cyan-600 hover:to-sky-600"
                     >
-                      プロフィール
+                      記録を見る
                       <ChevronRight className="w-5 h-5 ml-1" />
                     </Button>
                   </a>
@@ -235,15 +229,6 @@ function HomePage() {
                 <p className="text-slate-500 leading-relaxed mb-6">
                   こんにちは！Chihaluです。独学でプログラミング/3Dモデリングを始めました。 よろしくお願いします！
                 </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-                  {profileActivities.map((activity) => (
-                    <div key={activity.label} className="text-center p-3 rounded-xl bg-cyan-50 border border-cyan-100">
-                      <activity.icon className="w-6 h-6 text-cyan-500 mx-auto mb-2" />
-                      <div className="text-sm font-medium text-slate-700">{activity.label}</div>
-                    </div>
-                  ))}
-                </div>
 
                 <div className="flex flex-wrap gap-3">
                   {profileSocialLinks.map((link) => (

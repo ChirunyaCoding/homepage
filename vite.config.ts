@@ -16,7 +16,6 @@ export default defineConfig({
         main: path.resolve(__dirname, 'index.html'),
         works: path.resolve(__dirname, 'works/index.html'),
         youtube: path.resolve(__dirname, 'youtube/index.html'),
-        about: path.resolve(__dirname, 'about/index.html'),
         records: path.resolve(__dirname, 'records/index.html'),
       },
     },

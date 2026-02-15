@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Package, User, Home, Youtube, BookOpen } from "lucide-react";
+import { Menu, X, Package, Home, Youtube, BookOpen } from "lucide-react";
 import siteIcon from "../../icon.png";
 
 const baseUrl = import.meta.env.BASE_URL || "/";
@@ -12,7 +12,6 @@ const navItems = [
   { name: "YouTube", href: `${baseUrl}youtube/`, icon: Youtube },
   { name: "SHOP", href: `${baseUrl}works/`, icon: Package },
   { name: "記録", href: `${baseUrl}records/`, icon: BookOpen },
-  { name: "About", href: `${baseUrl}about/`, icon: User },
 ];
 
 export function Navigation() {

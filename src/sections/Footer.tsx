@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Heart, Github, Twitter, Mail, Gamepad2, Wrench, Youtube, Home, User, BookOpen } from "lucide-react";
+import { Heart, Github, Twitter, Mail, Gamepad2, Wrench, Youtube, Home, BookOpen } from "lucide-react";
 
 const footerLinks = {
   games: [
@@ -22,7 +22,6 @@ const footerLinks = {
     { name: "ゲーム", href: "/games/", icon: Gamepad2 },
     { name: "ツール", href: "/tools/", icon: Wrench },
     { name: "記録", href: "/records/", icon: BookOpen },
-    { name: "About", href: "/about/", icon: User },
   ],
 };
 
