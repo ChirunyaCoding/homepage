@@ -102,7 +102,7 @@ function HomePage() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-2xl"
+              className="w-full max-w-2xl space-y-6"
             >
               <div className="relative overflow-hidden rounded-[28px] border border-cyan-100/80 bg-white p-9 lg:p-12 text-center lg:text-left">
                 <motion.div
@@ -185,68 +185,57 @@ function HomePage() {
                   ))}
                 </motion.div>
               </div>
+
+              <Card className="bg-white border-cyan-100 overflow-hidden rounded-2xl">
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-6 mb-6">
+                    <div className="relative">
+                      <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-400 to-sky-500 p-1">
+                        <button
+                          type="button"
+                          onClick={() => setIsAvatarOpen(true)}
+                          className="w-full h-full rounded-xl bg-white flex items-center justify-center overflow-hidden cursor-zoom-in"
+                          aria-label="アバターを拡大"
+                        >
+                          <img src={`${baseUrl}avatar.png`} alt="Avatar" className="w-full h-full object-cover" />
+                        </button>
+                      </div>
+                      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-emerald-400 rounded-full border-4 border-white flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-slate-700">Chihalu</h3>
+                      <p className="text-slate-500">Indie Game Developer</p>
+                      <div className="flex items-center gap-2 mt-2 text-sm text-slate-400">
+                        <MapPin className="w-4 h-4" />
+                        <span>Japan</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-slate-500 leading-relaxed mb-6">
+                    こんにちは！Chihaluです。独学でプログラミング/3Dモデリングを始めました。 よろしくお願いします！
+                  </p>
+
+                  <div className="flex flex-wrap gap-3">
+                    {profileSocialLinks.map((link) => (
+                      <motion.a
+                        key={link.name}
+                        href={link.href}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r ${link.color} text-white text-sm font-medium`}
+                      >
+                        <link.icon className="w-5 h-5" />
+                        {link.name}
+                      </motion.a>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      <section className="relative -mt-6 lg:-mt-10 pt-0 pb-12 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <Card className="bg-white border-cyan-100 overflow-hidden rounded-2xl">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-6 mb-6">
-                  <div className="relative">
-                    <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-400 to-sky-500 p-1">
-                      <button
-                        type="button"
-                        onClick={() => setIsAvatarOpen(true)}
-                        className="w-full h-full rounded-xl bg-white flex items-center justify-center overflow-hidden cursor-zoom-in"
-                        aria-label="アバターを拡大"
-                      >
-                        <img src={`${baseUrl}avatar.png`} alt="Avatar" className="w-full h-full object-cover" />
-                      </button>
-                    </div>
-                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-emerald-400 rounded-full border-4 border-white flex items-center justify-center">
-                      <div className="w-2 h-2 bg-white rounded-full" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-700">Chihalu</h3>
-                    <p className="text-slate-500">Indie Game Developer</p>
-                    <div className="flex items-center gap-2 mt-2 text-sm text-slate-400">
-                      <MapPin className="w-4 h-4" />
-                      <span>Japan</span>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-slate-500 leading-relaxed mb-6">
-                  こんにちは！Chihaluです。独学でプログラミング/3Dモデリングを始めました。 よろしくお願いします！
-                </p>
-
-                <div className="flex flex-wrap gap-3">
-                  {profileSocialLinks.map((link) => (
-                    <motion.a
-                      key={link.name}
-                      href={link.href}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r ${link.color} text-white text-sm font-medium`}
-                    >
-                      <link.icon className="w-5 h-5" />
-                      {link.name}
-                    </motion.a>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
       </section>
 
