@@ -53,14 +53,9 @@ function HomePage() {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-cyan-50/50 via-white to-white">
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white">
         <div className="absolute inset-0 z-0">
           <ParticlesBackground />
-        </div>
-
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-200/30 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-200/30 rounded-full blur-3xl" />
         </div>
 
         <div className="relative z-10 container mx-auto px-4 py-20">
@@ -72,12 +67,10 @@ function HomePage() {
               className="relative"
             >
               <div className="relative w-80 h-[420px] lg:w-[420px] lg:h-[560px]">
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-200/40 via-transparent to-transparent rounded-full blur-2xl scale-110" />
-                
                 <img
                   src={`${baseUrl}character.png`}
                   alt="Character"
-                  className="relative z-10 w-full h-full object-contain drop-shadow-xl"
+                  className="relative z-10 w-full h-full object-contain"
                 />
 
                 {[...Array(5)].map((_, i) => (
@@ -107,10 +100,7 @@ function HomePage() {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="w-full max-w-xl"
             >
-              <div className="relative overflow-hidden rounded-[28px] border border-cyan-100/80 bg-white/75 backdrop-blur-xl p-8 lg:p-10 text-center lg:text-left">
-                <div className="pointer-events-none absolute -top-16 -right-12 h-40 w-40 rounded-full bg-cyan-200/40 blur-3xl" />
-                <div className="pointer-events-none absolute -bottom-14 -left-10 h-36 w-36 rounded-full bg-rose-200/30 blur-3xl" />
-
+              <div className="relative overflow-hidden rounded-[28px] border border-cyan-100/80 bg-white p-8 lg:p-10 text-center lg:text-left">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
