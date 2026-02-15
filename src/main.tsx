@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { motion } from "framer-motion";
-import { Sparkles, Youtube, Twitter, Github, Gamepad2, Wrench, ChevronRight, MapPin, Mail, BookOpen } from "lucide-react";
+import { Sparkles, Youtube, Twitter, Github, Gamepad2, Wrench, ChevronRight, MapPin, CalendarDays, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -48,7 +48,6 @@ const profileSocialLinks = [
   { name: "YouTube", icon: Youtube, href: youtubeChannelUrl, color: "from-red-500 to-rose-500" },
   { name: "X", icon: Twitter, href: "https://x.com/ChihaluCoding", color: "from-sky-400 to-blue-500" },
   { name: "GitHub", icon: Github, href: "https://github.com/ChihaluCoding", color: "from-slate-500 to-slate-700" },
-  { name: "Email", icon: Mail, href: "#", color: "from-cyan-400 to-sky-500" },
 ];
 
 function HomePage() {
@@ -162,29 +161,6 @@ function HomePage() {
                     </Button>
                   </a>
                 </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="relative flex gap-3 mt-7 justify-center lg:justify-start"
-                >
-                  {[
-                    { icon: Youtube, href: youtubeChannelUrl, accent: "hover:border-red-300 hover:bg-red-50 hover:text-red-500" },
-                    { icon: Twitter, href: "https://x.com/ChihaluCoding", accent: "hover:border-sky-300 hover:bg-sky-50 hover:text-sky-500" },
-                    { icon: Github, href: "https://github.com/ChihaluCoding", accent: "hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700" },
-                  ].map((social) => (
-                    <motion.a
-                      key={social.icon.name}
-                      href={social.href}
-                      whileHover={{ scale: 1.08 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`group w-12 h-12 rounded-xl border border-slate-200/80 bg-white/80 backdrop-blur flex items-center justify-center text-slate-400 transition-all duration-300 hover:-translate-y-1 ${social.accent}`}
-                    >
-                      <social.icon className="w-5 h-5" />
-                    </motion.a>
-                  ))}
-                </motion.div>
               </div>
 
               <Card className="bg-white border-cyan-100 overflow-hidden rounded-2xl">
@@ -211,6 +187,10 @@ function HomePage() {
                       <div className="flex items-center gap-2 mt-2 text-sm text-slate-400">
                         <MapPin className="w-4 h-4" />
                         <span>Japan</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1 text-sm text-slate-400">
+                        <CalendarDays className="w-4 h-4" />
+                        <span>2004年3月14日</span>
                       </div>
                     </div>
                   </div>
