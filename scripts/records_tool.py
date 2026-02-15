@@ -23,7 +23,18 @@ from tkinter import filedialog, messagebox, ttk
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
+def resolve_root_dir() -> Path:
+    if getattr(sys, "frozen", False):
+        exe_dir = Path(sys.executable).resolve().parent
+        if (exe_dir / "public").exists():
+            return exe_dir
+        if (exe_dir.parent / "public").exists():
+            return exe_dir.parent
+        return Path.cwd()
+    return Path(__file__).resolve().parents[1]
+
+
+ROOT_DIR = resolve_root_dir()
 PUBLIC_DIR = ROOT_DIR / "public"
 DEFAULT_DATA_FILE = ROOT_DIR / "public" / "records-data.json"
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".svg", ".avif"}

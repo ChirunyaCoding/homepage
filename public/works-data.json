@@ -8,11 +8,21 @@
       "rating": 4.8,
       "price": 500,
       "image": "🎮",
-      "tags": ["2D", "Pixel Art", "Platformer"],
+      "tags": [
+        "2D",
+        "Pixel Art",
+        "Platformer"
+      ],
       "color": "from-purple-400 to-pink-400",
       "boothUrl": "https://booth.pm/",
-      "trailerUrls": ["https://www.youtube.com/embed/dQw4w9WgXcQ"],
-      "screenshots": ["🎮", "🏃", "⭐"]
+      "trailerUrls": [
+        "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      ],
+      "screenshots": [
+        "🎮",
+        "🏃",
+        "⭐"
+      ]
     },
     {
       "id": 2,
@@ -22,67 +32,19 @@
       "rating": 4.6,
       "price": 300,
       "image": "🚀",
-      "tags": ["Shooting", "Space", "Bullet Hell"],
+      "tags": [
+        "Shooting",
+        "Space",
+        "Bullet Hell"
+      ],
       "color": "from-cyan-400 to-blue-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["🚀", "💥", "🌌"]
-    },
-    {
-      "id": 3,
-      "title": "Puzzle Master",
-      "description": "脳を鍛えるパズルゲーム集。論理的思考で難問を解き明かせ！",
-      "category": "Puzzle",
-      "rating": 4.9,
-      "price": 0,
-      "image": "🧩",
-      "tags": ["Puzzle", "Logic", "Brain Training"],
-      "color": "from-emerald-400 to-teal-400",
-      "boothUrl": "https://booth.pm/",
-      "trailerUrls": ["https://www.youtube.com/embed/dQw4w9WgXcQ"],
-      "screenshots": ["🧩", "🤔", "💡"]
-    },
-    {
-      "id": 4,
-      "title": "RPG Quest",
-      "description": "ファンタジー世界を舞台にした王道RPG。勇者となって世界を救え！",
-      "category": "RPG",
-      "rating": 4.7,
-      "price": 800,
-      "image": "⚔️",
-      "tags": ["RPG", "Fantasy", "Story"],
-      "color": "from-amber-400 to-orange-400",
-      "boothUrl": "https://booth.pm/",
-      "trailerUrls": [],
-      "screenshots": ["⚔️", "🛡️", "🏰"]
-    },
-    {
-      "id": 5,
-      "title": "Rhythm Beat",
-      "description": "音楽に合わせてリズムを刻む音ゲー。豊富な楽曲で遊ぼう！",
-      "category": "Rhythm",
-      "rating": 4.5,
-      "price": 600,
-      "image": "🎵",
-      "tags": ["Rhythm", "Music", "Casual"],
-      "color": "from-rose-400 to-red-400",
-      "boothUrl": "https://booth.pm/",
-      "trailerUrls": ["https://www.youtube.com/embed/dQw4w9WgXcQ"],
-      "screenshots": ["🎵", "🎹", "🎤"]
-    },
-    {
-      "id": 6,
-      "title": "Tower Defense",
-      "description": "戦略的なタワーディフェンスゲーム。敵の侵攻を防ぎきれ！",
-      "category": "Strategy",
-      "rating": 4.4,
-      "price": 400,
-      "image": "🏰",
-      "tags": ["Strategy", "Tower Defense", "Tactical"],
-      "color": "from-indigo-400 to-violet-400",
-      "boothUrl": "https://booth.pm/",
-      "trailerUrls": [],
-      "screenshots": ["🏰", "⚔️", "🛡️"]
+      "screenshots": [
+        "🚀",
+        "💥",
+        "🌌"
+      ]
     }
   ],
   "tools": [
@@ -93,11 +55,19 @@
       "category": "Utility",
       "price": 0,
       "icon": "🖼️",
-      "features": ["Batch Convert", "20+ Formats", "Resize"],
+      "features": [
+        "Batch Convert",
+        "20+ Formats",
+        "Resize"
+      ],
       "color": "from-emerald-400 to-teal-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["🖼️", "🔄", "✨"],
+      "screenshots": [
+        "🖼️",
+        "🔄",
+        "✨"
+      ],
       "isNew": false
     },
     {
@@ -107,11 +77,21 @@
       "category": "Productivity",
       "price": 500,
       "icon": "📝",
-      "features": ["Syntax Highlight", "Auto Save", "Plugins"],
+      "features": [
+        "Syntax Highlight",
+        "Auto Save",
+        "Plugins"
+      ],
       "color": "from-blue-400 to-indigo-400",
       "boothUrl": "https://booth.pm/",
-      "trailerUrls": ["https://www.youtube.com/embed/dQw4w9WgXcQ"],
-      "screenshots": ["📝", "💻", "⚡"],
+      "trailerUrls": [
+        "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      ],
+      "screenshots": [
+        "📝",
+        "💻",
+        "⚡"
+      ],
       "isNew": true
     },
     {
@@ -121,11 +101,19 @@
       "category": "Utility",
       "price": 300,
       "icon": "📁",
-      "features": ["Auto Sort", "Duplicate Detection", "Rules"],
+      "features": [
+        "Auto Sort",
+        "Duplicate Detection",
+        "Rules"
+      ],
       "color": "from-amber-400 to-yellow-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["📁", "📂", "🗂️"],
+      "screenshots": [
+        "📁",
+        "📂",
+        "🗂️"
+      ],
       "isNew": false
     },
     {
@@ -135,11 +123,19 @@
       "category": "Design",
       "price": 0,
       "icon": "🎨",
-      "features": ["Screen Pick", "Palette Export", "Harmony"],
+      "features": [
+        "Screen Pick",
+        "Palette Export",
+        "Harmony"
+      ],
       "color": "from-pink-400 to-rose-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["🎨", "🖌️", "🌈"],
+      "screenshots": [
+        "🎨",
+        "🖌️",
+        "🌈"
+      ],
       "isNew": false
     },
     {
@@ -149,11 +145,19 @@
       "category": "Security",
       "price": 800,
       "icon": "🔐",
-      "features": ["Encryption", "Generator", "Auto Fill"],
+      "features": [
+        "Encryption",
+        "Generator",
+        "Auto Fill"
+      ],
       "color": "from-violet-400 to-purple-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["🔐", "🔑", "🛡️"],
+      "screenshots": [
+        "🔐",
+        "🔑",
+        "🛡️"
+      ],
       "isNew": true
     },
     {
@@ -163,11 +167,19 @@
       "category": "System",
       "price": 200,
       "icon": "📊",
-      "features": ["CPU/GPU/RAM", "Temperature", "Alerts"],
+      "features": [
+        "CPU/GPU/RAM",
+        "Temperature",
+        "Alerts"
+      ],
       "color": "from-cyan-400 to-sky-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["📊", "📈", "💻"],
+      "screenshots": [
+        "📊",
+        "📈",
+        "💻"
+      ],
       "isNew": false
     }
   ],
@@ -179,26 +191,20 @@
       "category": "Environment",
       "price": 700,
       "icon": "🌲",
-      "features": ["FBX/GLB同梱", "PBRテクスチャ", "LOD対応"],
+      "features": [
+        "FBX/GLB同梱",
+        "PBRテクスチャ",
+        "LOD対応"
+      ],
       "color": "from-green-400 to-emerald-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["🌲", "🏞️", "🌿"],
+      "screenshots": [
+        "🌲",
+        "🏞️",
+        "🌿"
+      ],
       "isNew": true
-    },
-    {
-      "id": 2,
-      "title": "Sci-Fi Crate Set",
-      "description": "SFマップに使えるコンテナ・小物モデルセット。軽量で組み合わせやすい構成。",
-      "category": "Props",
-      "price": 500,
-      "icon": "📦",
-      "features": ["Modular", "Game Ready", "UV展開済み"],
-      "color": "from-cyan-400 to-blue-400",
-      "boothUrl": "https://booth.pm/",
-      "trailerUrls": [],
-      "screenshots": ["📦", "🤖", "🛰️"],
-      "isNew": false
     },
     {
       "id": 3,
@@ -207,11 +213,19 @@
       "category": "Interior",
       "price": 900,
       "icon": "🛋️",
-      "features": ["Blender対応", "Unity対応", "Texture付き"],
+      "features": [
+        "Blender対応",
+        "Unity対応",
+        "Texture付き"
+      ],
       "color": "from-rose-400 to-pink-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["🛋️", "🪟", "💡"],
+      "screenshots": [
+        "🛋️",
+        "🪟",
+        "💡"
+      ],
       "isNew": false
     }
   ],
@@ -223,11 +237,19 @@
       "category": "Modeling",
       "price": 1200,
       "icon": "🧊",
-      "features": ["ショートカット強化", "スナップ補助", "UI最適化"],
+      "features": [
+        "ショートカット強化",
+        "スナップ補助",
+        "UI最適化"
+      ],
       "color": "from-indigo-400 to-violet-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["🧊", "🛠️", "⚡"],
+      "screenshots": [
+        "🧊",
+        "🛠️",
+        "⚡"
+      ],
       "isNew": true
     },
     {
@@ -237,11 +259,19 @@
       "category": "Rigging",
       "price": 1500,
       "icon": "🦴",
-      "features": ["自動命名", "ミラー対応", "テンプレート保存"],
+      "features": [
+        "自動命名",
+        "ミラー対応",
+        "テンプレート保存"
+      ],
       "color": "from-amber-400 to-orange-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["🦴", "🤖", "🎛️"],
+      "screenshots": [
+        "🦴",
+        "🤖",
+        "🎛️"
+      ],
       "isNew": false
     },
     {
@@ -251,11 +281,19 @@
       "category": "Pipeline",
       "price": 800,
       "icon": "📤",
-      "features": ["FBX/GLTF対応", "命名ルール", "一括処理"],
+      "features": [
+        "FBX/GLTF対応",
+        "命名ルール",
+        "一括処理"
+      ],
       "color": "from-teal-400 to-cyan-400",
       "boothUrl": "https://booth.pm/",
       "trailerUrls": [],
-      "screenshots": ["📤", "📁", "✅"],
+      "screenshots": [
+        "📤",
+        "📁",
+        "✅"
+      ],
       "isNew": false
     }
   ]

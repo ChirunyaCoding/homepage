@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Navigation } from "@/components/Navigation";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { Footer } from "@/sections/Footer";
@@ -18,6 +20,8 @@ type GrowthRecord = {
   images: string[];
   youtubeUrls: string[];
 };
+
+type MediaTab = "images" | "videos";
 
 function toText(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
@@ -117,6 +121,8 @@ function RecordsPage() {
   const baseUrl = import.meta.env.BASE_URL || "/";
   const [records, setRecords] = useState<GrowthRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedRecord, setSelectedRecord] = useState<GrowthRecord | null>(null);
+  const [mediaTab, setMediaTab] = useState<MediaTab>("images");
   const [currentPage, setCurrentPage] = useState(() => {
     if (typeof window === "undefined") return 1;
     const pageParam = Number(new URLSearchParams(window.location.search).get("page") ?? "1");
@@ -181,6 +187,23 @@ function RecordsPage() {
     return Array.from({ length: end - adjustedStart + 1 }, (_, i) => adjustedStart + i);
   };
 
+  const openMediaDialog = (record: GrowthRecord, preferredTab?: MediaTab) => {
+    const hasImages = record.images.length > 0;
+    const hasVideos = record.youtubeUrls.some((url) => Boolean(toYouTubeEmbedUrl(url)));
+
+    if (!hasImages && !hasVideos) return;
+
+    if (preferredTab === "images" && hasImages) {
+      setMediaTab("images");
+    } else if (preferredTab === "videos" && hasVideos) {
+      setMediaTab("videos");
+    } else {
+      setMediaTab(hasImages ? "images" : "videos");
+    }
+
+    setSelectedRecord(record);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -242,7 +265,10 @@ function RecordsPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.08 + index * 0.05 }}
                   >
-                    <Card className="group bg-white border-cyan-100 overflow-hidden h-full">
+                    <Card
+                      className="group bg-white border-cyan-100 overflow-hidden h-full cursor-pointer"
+                      onClick={() => openMediaDialog(item)}
+                    >
                       <div className="aspect-[4/3] border-b border-cyan-100 bg-slate-50 overflow-hidden">
                         {primaryImage ? (
                           <img
@@ -269,14 +295,28 @@ function RecordsPage() {
                         <p className="text-slate-500 leading-relaxed">{item.description}</p>
                         <div className="mt-3 flex flex-wrap gap-2">
                           {item.images.length > 0 && (
-                            <span className="px-2 py-1 rounded-md bg-cyan-50 border border-cyan-100 text-xs text-cyan-700">
+                            <button
+                              type="button"
+                              className="px-2 py-1 rounded-md bg-cyan-50 border border-cyan-100 text-xs text-cyan-700 hover:bg-cyan-100"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                openMediaDialog(item, "images");
+                              }}
+                            >
                               画像 {item.images.length}件
-                            </span>
+                            </button>
                           )}
                           {item.youtubeUrls.length > 0 && (
-                            <span className="px-2 py-1 rounded-md bg-red-50 border border-red-100 text-xs text-red-700">
+                            <button
+                              type="button"
+                              className="px-2 py-1 rounded-md bg-red-50 border border-red-100 text-xs text-red-700 hover:bg-red-100"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                openMediaDialog(item, "videos");
+                              }}
+                            >
                               動画 {item.youtubeUrls.length}件
-                            </span>
+                            </button>
                           )}
                         </div>
                       </CardContent>
@@ -324,6 +364,80 @@ function RecordsPage() {
           )}
         </div>
       </section>
+
+      <Dialog open={Boolean(selectedRecord)} onOpenChange={(open) => !open && setSelectedRecord(null)}>
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+          {selectedRecord && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{selectedRecord.title}</DialogTitle>
+                <DialogDescription>{selectedRecord.description}</DialogDescription>
+              </DialogHeader>
+
+              <Tabs value={mediaTab} onValueChange={(value) => setMediaTab(value as MediaTab)} className="mt-2">
+                <TabsList className="grid grid-cols-2 w-full sm:w-72">
+                  <TabsTrigger value="images" disabled={selectedRecord.images.length === 0}>
+                    画像 ({selectedRecord.images.length})
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="videos"
+                    disabled={selectedRecord.youtubeUrls.filter((url) => Boolean(toYouTubeEmbedUrl(url))).length === 0}
+                  >
+                    動画 ({selectedRecord.youtubeUrls.filter((url) => Boolean(toYouTubeEmbedUrl(url))).length})
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="images" className="mt-4">
+                  {selectedRecord.images.length === 0 ? (
+                    <p className="text-slate-500 text-sm">画像はありません。</p>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {selectedRecord.images.map((image, index) => (
+                        <div key={`${image}-${index}`} className="rounded-lg overflow-hidden border border-cyan-100 bg-slate-50">
+                          <div className="aspect-video">
+                            <img
+                              src={resolveImageSrc(baseUrl, image)}
+                              alt={`${selectedRecord.title} image ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="px-3 py-2 text-xs text-slate-500">画像 {index + 1}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="videos" className="mt-4">
+                  {selectedRecord.youtubeUrls.filter((url) => Boolean(toYouTubeEmbedUrl(url))).length === 0 ? (
+                    <p className="text-slate-500 text-sm">動画はありません。</p>
+                  ) : (
+                    <div className="space-y-4">
+                      {selectedRecord.youtubeUrls
+                        .map((url) => toYouTubeEmbedUrl(url))
+                        .filter((url): url is string => Boolean(url))
+                        .map((embedUrl, index) => (
+                          <div key={`${embedUrl}-${index}`} className="rounded-lg overflow-hidden border border-red-100 bg-slate-50">
+                            <div className="aspect-video">
+                              <iframe
+                                src={embedUrl}
+                                title={`${selectedRecord.title} video ${index + 1}`}
+                                className="w-full h-full"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            </div>
+                            <div className="px-3 py-2 text-xs text-slate-500">動画 {index + 1}</div>
+                          </div>
+                        ))}
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>
