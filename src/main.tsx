@@ -54,9 +54,11 @@ function HomePage() {
       <Navigation />
       
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-cyan-50/50 via-white to-white">
-        <ParticlesBackground />
+        <div className="absolute inset-0 z-0">
+          <ParticlesBackground />
+        </div>
 
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-200/30 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-200/30 rounded-full blur-3xl" />
         </div>
@@ -72,18 +74,16 @@ function HomePage() {
               <div className="relative w-80 h-[420px] lg:w-[420px] lg:h-[560px]">
                 <div className="absolute inset-0 bg-gradient-to-t from-cyan-200/40 via-transparent to-transparent rounded-full blur-2xl scale-110" />
                 
-                <motion.img
+                <img
                   src={`${baseUrl}character.png`}
                   alt="Character"
-                  className="w-full h-full object-contain drop-shadow-xl"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="relative z-10 w-full h-full object-contain drop-shadow-xl"
                 />
 
                 {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className="absolute w-2 h-2 bg-cyan-400 rounded-full"
+                    className="absolute z-0 w-2 h-2 bg-cyan-400 rounded-full"
                     style={{ left: `${20 + i * 15}%`, top: `${30 + i * 10}%` }}
                     animate={{
                       y: [-20, -40, -20],
