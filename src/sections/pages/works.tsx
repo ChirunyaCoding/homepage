@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { motion } from "framer-motion";
 import { Package, ExternalLink, Play, ChevronLeft, Gamepad2, Wrench, ArrowUpDown } from "lucide-react";
@@ -12,95 +12,20 @@ import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { Footer } from "@/sections/Footer";
 import "@/index.css";
 
-// ゲームデータ
-const games = [
-  {
-    id: 1,
-    title: "Pixel Adventure",
-    description: "レトロ風ピクセルアートの2Dアクションゲーム。様々なステージを冒険しよう！",
-    category: "Action",
-    rating: 4.8,
-    price: 500,
-    image: "🎮",
-    tags: ["2D", "Pixel Art", "Platformer"],
-    color: "from-purple-400 to-pink-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    screenshots: ["🎮", "🏃", "⭐"],
-  },
-  {
-    id: 2,
-    title: "Space Shooter X",
-    description: "宇宙を舞台にしたシューティングゲーム。迫りくる敵を撃ち落とせ！",
-    category: "Shooter",
-    rating: 4.6,
-    price: 300,
-    image: "🚀",
-    tags: ["Shooting", "Space", "Bullet Hell"],
-    color: "from-cyan-400 to-blue-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🚀", "💥", "🌌"],
-  },
-  {
-    id: 3,
-    title: "Puzzle Master",
-    description: "脳を鍛えるパズルゲーム集。論理的思考で難問を解き明かせ！",
-    category: "Puzzle",
-    rating: 4.9,
-    price: 0,
-    image: "🧩",
-    tags: ["Puzzle", "Logic", "Brain Training"],
-    color: "from-emerald-400 to-teal-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    screenshots: ["🧩", "🤔", "💡"],
-  },
-  {
-    id: 4,
-    title: "RPG Quest",
-    description: "ファンタジー世界を舞台にした王道RPG。勇者となって世界を救え！",
-    category: "RPG",
-    rating: 4.7,
-    price: 800,
-    image: "⚔️",
-    tags: ["RPG", "Fantasy", "Story"],
-    color: "from-amber-400 to-orange-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["⚔️", "🛡️", "🏰"],
-  },
-  {
-    id: 5,
-    title: "Rhythm Beat",
-    description: "音楽に合わせてリズムを刻む音ゲー。豊富な楽曲で遊ぼう！",
-    category: "Rhythm",
-    rating: 4.5,
-    price: 600,
-    image: "🎵",
-    tags: ["Rhythm", "Music", "Casual"],
-    color: "from-rose-400 to-red-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    screenshots: ["🎵", "🎹", "🎤"],
-  },
-  {
-    id: 6,
-    title: "Tower Defense",
-    description: "戦略的なタワーディフェンスゲーム。敵の侵攻を防ぎきれ！",
-    category: "Strategy",
-    rating: 4.4,
-    price: 400,
-    image: "🏰",
-    tags: ["Strategy", "Tower Defense", "Tactical"],
-    color: "from-indigo-400 to-violet-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🏰", "⚔️", "🛡️"],
-  },
-];
-
-type GameWork = typeof games[number];
+type GameWork = {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  rating: number;
+  price: number;
+  image: string;
+  tags: string[];
+  color: string;
+  boothUrl: string;
+  trailerUrls: string[];
+  screenshots: string[];
+};
 
 type ToolLikeWork = {
   id: number;
@@ -112,190 +37,26 @@ type ToolLikeWork = {
   features: string[];
   color: string;
   boothUrl: string;
-  trailerUrl: string | null;
+  trailerUrls: string[];
   screenshots: string[];
   isNew: boolean;
 };
 
-// ツールデータ
-const tools: ToolLikeWork[] = [
-  {
-    id: 1,
-    title: "Image Converter",
-    description: "様々な画像フォーマットを簡単に変換できるツール。バッチ処理にも対応。",
-    category: "Utility",
-    price: 0,
-    icon: "🖼️",
-    features: ["Batch Convert", "20+ Formats", "Resize"],
-    color: "from-emerald-400 to-teal-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🖼️", "🔄", "✨"],
-    isNew: false,
-  },
-  {
-    id: 2,
-    title: "Text Editor Pro",
-    description: "シンプルかつ高機能なテキストエディタ。プログラミングにも最適。",
-    category: "Productivity",
-    price: 500,
-    icon: "📝",
-    features: ["Syntax Highlight", "Auto Save", "Plugins"],
-    color: "from-blue-400 to-indigo-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    screenshots: ["📝", "💻", "⚡"],
-    isNew: true,
-  },
-  {
-    id: 3,
-    title: "File Organizer",
-    description: "ファイルを自動で整理・分類してくれる便利ツール。",
-    category: "Utility",
-    price: 300,
-    icon: "📁",
-    features: ["Auto Sort", "Duplicate Detection", "Rules"],
-    color: "from-amber-400 to-yellow-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["📁", "📂", "🗂️"],
-    isNew: false,
-  },
-  {
-    id: 4,
-    title: "Color Picker",
-    description: "画面から色を抽出し、パレットを作成できるデザイナー向けツール。",
-    category: "Design",
-    price: 0,
-    icon: "🎨",
-    features: ["Screen Pick", "Palette Export", "Harmony"],
-    color: "from-pink-400 to-rose-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🎨", "🖌️", "🌈"],
-    isNew: false,
-  },
-  {
-    id: 5,
-    title: "Password Manager",
-    description: "安全にパスワードを管理できるローカル型パスワードマネージャー。",
-    category: "Security",
-    price: 800,
-    icon: "🔐",
-    features: ["Encryption", "Generator", "Auto Fill"],
-    color: "from-violet-400 to-purple-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🔐", "🔑", "🛡️"],
-    isNew: true,
-  },
-  {
-    id: 6,
-    title: "System Monitor",
-    description: "PCのパフォーマンスをリアルタイムで監視できるツール。",
-    category: "System",
-    price: 200,
-    icon: "📊",
-    features: ["CPU/GPU/RAM", "Temperature", "Alerts"],
-    color: "from-cyan-400 to-sky-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["📊", "📈", "💻"],
-    isNew: false,
-  },
-];
+type WorksData = {
+  games: GameWork[];
+  tools: ToolLikeWork[];
+  modelAssets: ToolLikeWork[];
+  blenderAddons: ToolLikeWork[];
+};
 
-// 3Dモデルデータ
-const modelAssets: ToolLikeWork[] = [
-  {
-    id: 1,
-    title: "Stylized Tree Pack",
-    description: "ローポリで扱いやすい樹木アセット集。ゲーム背景やシーン制作に最適。",
-    category: "Environment",
-    price: 700,
-    icon: "🌲",
-    features: ["FBX/GLB同梱", "PBRテクスチャ", "LOD対応"],
-    color: "from-green-400 to-emerald-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🌲", "🏞️", "🌿"],
-    isNew: true,
-  },
-  {
-    id: 2,
-    title: "Sci-Fi Crate Set",
-    description: "SFマップに使えるコンテナ・小物モデルセット。軽量で組み合わせやすい構成。",
-    category: "Props",
-    price: 500,
-    icon: "📦",
-    features: ["Modular", "Game Ready", "UV展開済み"],
-    color: "from-cyan-400 to-blue-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["📦", "🤖", "🛰️"],
-    isNew: false,
-  },
-  {
-    id: 3,
-    title: "Anime Room Kit",
-    description: "室内シーンを素早く作れる家具・小物の3Dモデルキット。",
-    category: "Interior",
-    price: 900,
-    icon: "🛋️",
-    features: ["Blender対応", "Unity対応", "Texture付き"],
-    color: "from-rose-400 to-pink-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🛋️", "🪟", "💡"],
-    isNew: false,
-  },
-];
+const EMPTY_DATA: WorksData = {
+  games: [],
+  tools: [],
+  modelAssets: [],
+  blenderAddons: [],
+};
 
-// Blenderアドオンデータ
-const blenderAddons: ToolLikeWork[] = [
-  {
-    id: 1,
-    title: "Quick Retopo Assist",
-    description: "リトポロジー作業を効率化する補助アドオン。面貼りやスナップ操作を高速化。",
-    category: "Modeling",
-    price: 1200,
-    icon: "🧊",
-    features: ["ショートカット強化", "スナップ補助", "UI最適化"],
-    color: "from-indigo-400 to-violet-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🧊", "🛠️", "⚡"],
-    isNew: true,
-  },
-  {
-    id: 2,
-    title: "Auto Rig Helper",
-    description: "ボーンセットアップと命名を半自動化し、リギング初期工程を短縮。",
-    category: "Rigging",
-    price: 1500,
-    icon: "🦴",
-    features: ["自動命名", "ミラー対応", "テンプレート保存"],
-    color: "from-amber-400 to-orange-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["🦴", "🤖", "🎛️"],
-    isNew: false,
-  },
-  {
-    id: 3,
-    title: "Batch Export Wizard",
-    description: "複数オブジェクトを一括エクスポート。ゲーム向け書き出し設定をプリセット化。",
-    category: "Pipeline",
-    price: 800,
-    icon: "📤",
-    features: ["FBX/GLTF対応", "命名ルール", "一括処理"],
-    color: "from-teal-400 to-cyan-400",
-    boothUrl: "https://booth.pm/",
-    trailerUrl: null,
-    screenshots: ["📤", "📁", "✅"],
-    isNew: false,
-  },
-];
+type SortType = 'default' | 'price-asc' | 'price-desc';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -317,21 +78,122 @@ const itemVariants = {
   },
 };
 
-// 作品詳細ダイアログコンポーネント
-function WorkDetailDialog({ 
-  isOpen, 
-  onClose, 
-  work, 
-  type 
-}: { 
-  isOpen: boolean; 
-  onClose: () => void; 
-  work: any; 
+const IMAGE_PATTERN = /\.(png|jpe?g|webp|gif|bmp|svg|avif)(\?.*)?$/i;
+
+function toNumber(value: unknown, fallback = 0) {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  return fallback;
+}
+
+function toString(value: unknown, fallback = "") {
+  return typeof value === "string" ? value : fallback;
+}
+
+function toStringArray(value: unknown) {
+  if (!Array.isArray(value)) return [] as string[];
+  return value.filter((item): item is string => typeof item === "string" && item.trim().length > 0);
+}
+
+function toBoolean(value: unknown, fallback = false) {
+  return typeof value === "boolean" ? value : fallback;
+}
+
+function toTrailerUrls(item: Record<string, unknown>) {
+  const urls = toStringArray(item.trailerUrls);
+  if (urls.length > 0) return urls;
+
+  const single = toString(item.trailerUrl);
+  if (!single) return [] as string[];
+  return [single];
+}
+
+function normalizeGame(item: unknown): GameWork | null {
+  if (typeof item !== "object" || item === null) return null;
+  const row = item as Record<string, unknown>;
+  const id = toNumber(row.id);
+  if (id <= 0) return null;
+
+  return {
+    id,
+    title: toString(row.title),
+    description: toString(row.description),
+    category: toString(row.category),
+    rating: toNumber(row.rating),
+    price: toNumber(row.price),
+    image: toString(row.image),
+    tags: toStringArray(row.tags),
+    color: toString(row.color, "from-cyan-400 to-blue-400"),
+    boothUrl: toString(row.boothUrl, "https://booth.pm/"),
+    trailerUrls: toTrailerUrls(row),
+    screenshots: toStringArray(row.screenshots),
+  };
+}
+
+function normalizeToolLike(item: unknown): ToolLikeWork | null {
+  if (typeof item !== "object" || item === null) return null;
+  const row = item as Record<string, unknown>;
+  const id = toNumber(row.id);
+  if (id <= 0) return null;
+
+  return {
+    id,
+    title: toString(row.title),
+    description: toString(row.description),
+    category: toString(row.category),
+    price: toNumber(row.price),
+    icon: toString(row.icon),
+    features: toStringArray(row.features),
+    color: toString(row.color, "from-cyan-400 to-blue-400"),
+    boothUrl: toString(row.boothUrl, "https://booth.pm/"),
+    trailerUrls: toTrailerUrls(row),
+    screenshots: toStringArray(row.screenshots),
+    isNew: toBoolean(row.isNew),
+  };
+}
+
+function normalizeWorksData(data: unknown): WorksData {
+  if (typeof data !== "object" || data === null) return EMPTY_DATA;
+  const row = data as Record<string, unknown>;
+
+  return {
+    games: Array.isArray(row.games) ? row.games.map(normalizeGame).filter((item): item is GameWork => item !== null) : [],
+    tools: Array.isArray(row.tools) ? row.tools.map(normalizeToolLike).filter((item): item is ToolLikeWork => item !== null) : [],
+    modelAssets: Array.isArray(row.modelAssets) ? row.modelAssets.map(normalizeToolLike).filter((item): item is ToolLikeWork => item !== null) : [],
+    blenderAddons: Array.isArray(row.blenderAddons) ? row.blenderAddons.map(normalizeToolLike).filter((item): item is ToolLikeWork => item !== null) : [],
+  };
+}
+
+function resolveMediaSrc(baseUrl: string, value: string) {
+  if (/^https?:\/\//i.test(value)) return value;
+  return `${baseUrl}${value.replace(/^\/+/, "")}`;
+}
+
+function isImageValue(value: string) {
+  if (/^https?:\/\//i.test(value)) return IMAGE_PATTERN.test(value);
+  return IMAGE_PATTERN.test(value);
+}
+
+type DetailWork = GameWork | ToolLikeWork;
+
+function WorkDetailDialog({
+  isOpen,
+  onClose,
+  work,
+  type,
+  baseUrl,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  work: DetailWork | null;
   type: 'game' | 'tool';
+  baseUrl: string;
 }) {
   const [activeTab, setActiveTab] = useState("overview");
 
   if (!work) return null;
+
+  const trailerUrls = work.trailerUrls ?? [];
+  const screenshots = work.screenshots ?? [];
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -339,7 +201,7 @@ function WorkDetailDialog({
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
             <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${work.color} flex items-center justify-center text-2xl`}>
-              {type === 'game' ? work.image : work.icon}
+              {type === 'game' ? (work as GameWork).image : (work as ToolLikeWork).icon}
             </div>
             <div>
               <DialogTitle className="text-2xl">{work.title}</DialogTitle>
@@ -357,10 +219,10 @@ function WorkDetailDialog({
 
           <TabsContent value="overview" className="space-y-4">
             <p className="text-slate-600 leading-relaxed">{work.description}</p>
-            
+
             {type === 'game' && (
               <div className="flex flex-wrap gap-2">
-                {work.tags.map((tag: string) => (
+                {(work as GameWork).tags.map((tag) => (
                   <Badge key={tag} variant="outline" className="border-cyan-200 text-cyan-600">
                     {tag}
                   </Badge>
@@ -371,7 +233,7 @@ function WorkDetailDialog({
             {type === 'tool' && (
               <div className="space-y-2">
                 <h4 className="font-medium text-slate-700">主な機能</h4>
-                {work.features.map((feature: string) => (
+                {(work as ToolLikeWork).features.map((feature) => (
                   <div key={feature} className="flex items-center gap-2 text-sm text-slate-600">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
                     {feature}
@@ -384,44 +246,54 @@ function WorkDetailDialog({
               <span className="font-bold text-cyan-600 text-base">
                 {work.price === 0 ? "無料" : `¥${work.price.toLocaleString()}`}
               </span>
-              {work.rating && <span>評価: ★ {work.rating}</span>}
+              {'rating' in work && <span>評価: ★ {work.rating}</span>}
             </div>
           </TabsContent>
 
-          <TabsContent value="media" className="space-y-4">
-            {/* トレーラー動画 */}
-            {work.trailerUrl && (
-              <div className="space-y-2">
-                <h4 className="font-medium text-slate-700">トレーラー</h4>
-                <div className="aspect-video bg-slate-100 rounded-lg overflow-hidden">
-                  <iframe
-                    src={work.trailerUrl}
-                    title={`${work.title} Trailer`}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+          <TabsContent value="media" className="space-y-6">
+            {trailerUrls.length > 0 && (
+              <div className="space-y-3">
+                <h4 className="font-medium text-slate-700">YouTube動画</h4>
+                <div className="space-y-4">
+                  {trailerUrls.map((url, index) => (
+                    <div key={`${url}-${index}`} className="aspect-video bg-slate-100 rounded-lg overflow-hidden">
+                      <iframe
+                        src={url}
+                        title={`${work.title} Trailer ${index + 1}`}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
 
-            {/* スクリーンショット */}
-            <div className="space-y-2">
-              <h4 className="font-medium text-slate-700">スクリーンショット</h4>
-              <div className="grid grid-cols-3 gap-3">
-                {work.screenshots.map((screenshot: string, index: number) => (
-                  <div 
-                    key={index}
-                    className="aspect-video bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg flex items-center justify-center text-4xl"
-                  >
-                    {screenshot}
-                  </div>
-                ))}
+            {screenshots.length > 0 && (
+              <div className="space-y-2">
+                <h4 className="font-medium text-slate-700">スクリーンショット</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {screenshots.map((shot, index) => (
+                    <div key={`${shot}-${index}`} className="aspect-video bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg overflow-hidden flex items-center justify-center">
+                      {isImageValue(shot) ? (
+                        <img
+                          src={resolveMediaSrc(baseUrl, shot)}
+                          alt={`${work.title} screenshot ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-4xl">{shot}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <p className="text-xs text-slate-400">
-                ※実際のスクリーンショット画像に差し替えてください
-              </p>
-            </div>
+            )}
+
+            {trailerUrls.length === 0 && screenshots.length === 0 && (
+              <p className="text-sm text-slate-400">メディアが登録されていません。</p>
+            )}
           </TabsContent>
 
           <TabsContent value="download" className="space-y-4">
@@ -449,16 +321,44 @@ function WorkDetailDialog({
   );
 }
 
-type SortType = 'default' | 'price-asc' | 'price-desc';
-
 function WorksPage() {
   const baseUrl = import.meta.env.BASE_URL || "/";
-  const [selectedGame, setSelectedGame] = useState<typeof games[0] | null>(null);
+  const [worksData, setWorksData] = useState<WorksData>(EMPTY_DATA);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [selectedGame, setSelectedGame] = useState<GameWork | null>(null);
   const [selectedTool, setSelectedTool] = useState<ToolLikeWork | null>(null);
   const [selectedModelAsset, setSelectedModelAsset] = useState<ToolLikeWork | null>(null);
   const [selectedBlenderAddon, setSelectedBlenderAddon] = useState<ToolLikeWork | null>(null);
+
   const [gameSort, setGameSort] = useState<SortType>('default');
   const [assetSort, setAssetSort] = useState<SortType>('default');
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadWorksData = async () => {
+      try {
+        const response = await fetch(`${baseUrl}works-data.json`);
+        if (!response.ok) throw new Error("Failed to load works data");
+        const data = await response.json();
+        if (!mounted) return;
+        setWorksData(normalizeWorksData(data));
+      } catch {
+        if (!mounted) return;
+        setWorksData(EMPTY_DATA);
+      } finally {
+        if (!mounted) return;
+        setIsLoading(false);
+      }
+    };
+
+    loadWorksData();
+
+    return () => {
+      mounted = false;
+    };
+  }, [baseUrl]);
 
   const sortGames = (items: GameWork[]) => {
     switch (gameSort) {
@@ -571,7 +471,7 @@ function WorksPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white via-cyan-50/30 to-white">
         <ParticlesBackground />
 
@@ -613,163 +513,166 @@ function WorksPage() {
             </p>
           </motion.div>
 
-          <Tabs defaultValue="games" className="w-full">
-            <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-4 mb-8">
-              <TabsTrigger value="games" className="flex items-center gap-2">
-                <Gamepad2 className="w-4 h-4" />
-                ゲーム
-              </TabsTrigger>
-              <TabsTrigger value="tools" className="flex items-center gap-2">
-                <Wrench className="w-4 h-4" />
-                ツール
-              </TabsTrigger>
-              <TabsTrigger value="model-assets" className="flex items-center gap-2 text-xs sm:text-sm">
-                <Package className="w-4 h-4" />
-                <span className="hidden md:inline">3Dアセット</span>
-                <span className="md:hidden">3D Asset</span>
-              </TabsTrigger>
-              <TabsTrigger value="blender-addons" className="flex items-center gap-2 text-xs sm:text-sm">
-                <Wrench className="w-4 h-4" />
-                <span className="hidden md:inline">Blenderアドオン</span>
-                <span className="md:hidden">Addon</span>
-              </TabsTrigger>
-            </TabsList>
+          {isLoading ? (
+            <div className="text-center text-slate-500 py-12">読み込み中...</div>
+          ) : (
+            <Tabs defaultValue="games" className="w-full">
+              <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-4 mb-8">
+                <TabsTrigger value="games" className="flex items-center gap-2">
+                  <Gamepad2 className="w-4 h-4" />
+                  ゲーム
+                </TabsTrigger>
+                <TabsTrigger value="tools" className="flex items-center gap-2">
+                  <Wrench className="w-4 h-4" />
+                  ツール
+                </TabsTrigger>
+                <TabsTrigger value="model-assets" className="flex items-center gap-2 text-xs sm:text-sm">
+                  <Package className="w-4 h-4" />
+                  <span className="hidden md:inline">3Dアセット</span>
+                  <span className="md:hidden">3D Asset</span>
+                </TabsTrigger>
+                <TabsTrigger value="blender-addons" className="flex items-center gap-2 text-xs sm:text-sm">
+                  <Wrench className="w-4 h-4" />
+                  <span className="hidden md:inline">Blenderアドオン</span>
+                  <span className="md:hidden">Addon</span>
+                </TabsTrigger>
+              </TabsList>
 
-            {/* ゲームタブ */}
-            <TabsContent value="games">
-              <div className="flex justify-end mb-4">
-                <div className="flex gap-2">
-                  <Button
-                    variant={gameSort === 'price-asc' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setGameSort(gameSort === 'price-asc' ? 'default' : 'price-asc')}
-                    className={gameSort === 'price-asc' ? 'bg-cyan-500 hover:bg-cyan-600' : ''}
-                  >
-                    <ArrowUpDown className="w-4 h-4 mr-1" />
-                    安い順
-                  </Button>
-                  <Button
-                    variant={gameSort === 'price-desc' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setGameSort(gameSort === 'price-desc' ? 'default' : 'price-desc')}
-                    className={gameSort === 'price-desc' ? 'bg-cyan-500 hover:bg-cyan-600' : ''}
-                  >
-                    <ArrowUpDown className="w-4 h-4 mr-1" />
-                    高い順
-                  </Button>
-                </div>
-              </div>
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              >
-                {sortGames(games).map((game) => (
-                  <motion.div key={game.id} variants={itemVariants}>
-                    <Card 
-                      className="group bg-white border-slate-200 hover:border-cyan-300 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-100 overflow-hidden cursor-pointer h-full flex flex-col"
-                      onClick={() => setSelectedGame(game)}
+              <TabsContent value="games">
+                <div className="flex justify-end mb-4">
+                  <div className="flex gap-2">
+                    <Button
+                      variant={gameSort === 'price-asc' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setGameSort(gameSort === 'price-asc' ? 'default' : 'price-asc')}
+                      className={gameSort === 'price-asc' ? 'bg-cyan-500 hover:bg-cyan-600' : ''}
                     >
-                      <div className={`h-40 bg-gradient-to-br ${game.color} relative overflow-hidden`}>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-6xl">{game.image}</span>
-                        </div>
-                        <div className="absolute inset-0 bg-black/10" />
-                        <div className="absolute top-3 right-3">
-                          <Badge variant="secondary" className="bg-white/80 text-slate-700 backdrop-blur-sm">
-                            {game.category}
-                          </Badge>
-                        </div>
-                        {game.trailerUrl && (
-                          <div className="absolute bottom-3 left-3">
-                            <Badge className="bg-red-500/90 text-white backdrop-blur-sm">
-                              <Play className="w-3 h-3 mr-1" />
-                              動画あり
+                      <ArrowUpDown className="w-4 h-4 mr-1" />
+                      安い順
+                    </Button>
+                    <Button
+                      variant={gameSort === 'price-desc' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setGameSort(gameSort === 'price-desc' ? 'default' : 'price-desc')}
+                      className={gameSort === 'price-desc' ? 'bg-cyan-500 hover:bg-cyan-600' : ''}
+                    >
+                      <ArrowUpDown className="w-4 h-4 mr-1" />
+                      高い順
+                    </Button>
+                  </div>
+                </div>
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {sortGames(worksData.games).map((game) => (
+                    <motion.div key={game.id} variants={itemVariants}>
+                      <Card
+                        className="group bg-white border-slate-200 hover:border-cyan-300 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-100 overflow-hidden cursor-pointer h-full flex flex-col"
+                        onClick={() => setSelectedGame(game)}
+                      >
+                        <div className={`h-40 bg-gradient-to-br ${game.color} relative overflow-hidden`}>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-6xl">{game.image}</span>
+                          </div>
+                          <div className="absolute inset-0 bg-black/10" />
+                          <div className="absolute top-3 right-3">
+                            <Badge variant="secondary" className="bg-white/80 text-slate-700 backdrop-blur-sm">
+                              {game.category}
                             </Badge>
                           </div>
-                        )}
-                      </div>
-
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-xl text-slate-700 group-hover:text-cyan-600 transition-colors">
-                          {game.title}
-                        </CardTitle>
-                        <CardDescription className="line-clamp-2 text-slate-500">
-                          {game.description}
-                        </CardDescription>
-                      </CardHeader>
-
-                      <CardContent className="pb-3 flex-grow">
-                        <div className="flex flex-wrap gap-2">
-                          {game.tags.slice(0, 3).map((tag) => (
-                            <Badge key={tag} variant="outline" className="text-xs border-cyan-200 text-cyan-600">
-                              {tag}
-                            </Badge>
-                          ))}
+                          {game.trailerUrls.length > 0 && (
+                            <div className="absolute bottom-3 left-3">
+                              <Badge className="bg-red-500/90 text-white backdrop-blur-sm">
+                                <Play className="w-3 h-3 mr-1" />
+                                動画あり
+                              </Badge>
+                            </div>
+                          )}
                         </div>
-                      </CardContent>
 
-                      <CardFooter className="flex items-center justify-between pt-3 border-t border-slate-100 mt-auto">
-                        <span className="text-sm font-bold text-cyan-600">
-                          {game.price === 0 ? "無料" : `¥${game.price.toLocaleString()}`}
-                        </span>
-                        <Button size="sm" className="bg-cyan-100 text-cyan-600 hover:bg-cyan-500 hover:text-white transition-all">
-                          <ExternalLink className="w-4 h-4 mr-1" />
-                          詳細
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </TabsContent>
+                        <CardHeader className="pb-3">
+                          <CardTitle className="text-xl text-slate-700 group-hover:text-cyan-600 transition-colors">
+                            {game.title}
+                          </CardTitle>
+                          <CardDescription className="line-clamp-2 text-slate-500">
+                            {game.description}
+                          </CardDescription>
+                        </CardHeader>
 
-            {/* ツールタブ */}
-            <TabsContent value="tools">
-              {renderAssetSortButtons()}
-              {renderToolLikeGrid(tools, setSelectedTool)}
-            </TabsContent>
+                        <CardContent className="pb-3 flex-grow">
+                          <div className="flex flex-wrap gap-2">
+                            {game.tags.slice(0, 3).map((tag) => (
+                              <Badge key={tag} variant="outline" className="text-xs border-cyan-200 text-cyan-600">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </CardContent>
 
-            {/* 3Dモデルタブ */}
-            <TabsContent value="model-assets">
-              {renderAssetSortButtons()}
-              {renderToolLikeGrid(modelAssets, setSelectedModelAsset)}
-            </TabsContent>
+                        <CardFooter className="flex items-center justify-between pt-3 border-t border-slate-100 mt-auto">
+                          <span className="text-sm font-bold text-cyan-600">
+                            {game.price === 0 ? "無料" : `¥${game.price.toLocaleString()}`}
+                          </span>
+                          <Button size="sm" className="bg-cyan-100 text-cyan-600 hover:bg-cyan-500 hover:text-white transition-all">
+                            <ExternalLink className="w-4 h-4 mr-1" />
+                            詳細
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </TabsContent>
 
-            {/* Blenderアドオンタブ */}
-            <TabsContent value="blender-addons">
-              {renderAssetSortButtons()}
-              {renderToolLikeGrid(blenderAddons, setSelectedBlenderAddon)}
-            </TabsContent>
-          </Tabs>
+              <TabsContent value="tools">
+                {renderAssetSortButtons()}
+                {renderToolLikeGrid(worksData.tools, setSelectedTool)}
+              </TabsContent>
+
+              <TabsContent value="model-assets">
+                {renderAssetSortButtons()}
+                {renderToolLikeGrid(worksData.modelAssets, setSelectedModelAsset)}
+              </TabsContent>
+
+              <TabsContent value="blender-addons">
+                {renderAssetSortButtons()}
+                {renderToolLikeGrid(worksData.blenderAddons, setSelectedBlenderAddon)}
+              </TabsContent>
+            </Tabs>
+          )}
         </div>
       </section>
 
-      {/* 作品詳細ダイアログ */}
-      <WorkDetailDialog 
-        isOpen={!!selectedGame} 
-        onClose={() => setSelectedGame(null)} 
-        work={selectedGame} 
+      <WorkDetailDialog
+        isOpen={!!selectedGame}
+        onClose={() => setSelectedGame(null)}
+        work={selectedGame}
         type="game"
+        baseUrl={baseUrl}
       />
-      <WorkDetailDialog 
-        isOpen={!!selectedTool} 
-        onClose={() => setSelectedTool(null)} 
-        work={selectedTool} 
+      <WorkDetailDialog
+        isOpen={!!selectedTool}
+        onClose={() => setSelectedTool(null)}
+        work={selectedTool}
         type="tool"
+        baseUrl={baseUrl}
       />
-      <WorkDetailDialog 
-        isOpen={!!selectedModelAsset} 
-        onClose={() => setSelectedModelAsset(null)} 
-        work={selectedModelAsset} 
+      <WorkDetailDialog
+        isOpen={!!selectedModelAsset}
+        onClose={() => setSelectedModelAsset(null)}
+        work={selectedModelAsset}
         type="tool"
+        baseUrl={baseUrl}
       />
-      <WorkDetailDialog 
-        isOpen={!!selectedBlenderAddon} 
-        onClose={() => setSelectedBlenderAddon(null)} 
-        work={selectedBlenderAddon} 
+      <WorkDetailDialog
+        isOpen={!!selectedBlenderAddon}
+        onClose={() => setSelectedBlenderAddon(null)}
+        work={selectedBlenderAddon}
         type="tool"
+        baseUrl={baseUrl}
       />
 
       <Footer />

@@ -1,0 +1,73 @@
+[
+  {
+    "id": 1,
+    "title": "ポートフォリオUI更新",
+    "description": "ヒーロー・ナビゲーション・配色を調整し、見た目の一貫性を改善。",
+    "images": [
+      "character.png",
+      "avatar.png"
+    ],
+    "youtubeUrls": []
+  },
+  {
+    "id": 2,
+    "title": "3Dアセット制作",
+    "description": "Blenderで配布用アセットの制作フローを整備し、試作品を作成。",
+    "images": [
+      "avatar.png"
+    ],
+    "youtubeUrls": []
+  },
+  {
+    "id": 3,
+    "title": "YouTube運用改善",
+    "description": "投稿計画を再編して、制作ログと解説動画の更新頻度を見直し。",
+    "images": [
+      "icon.png"
+    ],
+    "youtubeUrls": [
+      "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "ゲーム試作v1完成",
+    "description": "コア部分を実装し、テストプレイ可能な最小構成を完成。",
+    "images": [
+      "character.png"
+    ],
+    "youtubeUrls": []
+  },
+  {
+    "id": 5,
+    "title": "ツール機能追加",
+    "description": "既存ツールへ新機能を追加し、使い勝手と安定性を改善。",
+    "images": [
+      "avatar.png"
+    ],
+    "youtubeUrls": []
+  },
+  {
+    "id": 6,
+    "title": "サイト導線最適化",
+    "description": "各ページのリンク構成を整理し、情報へ到達しやすい構造に調整。",
+    "images": [
+      "icon.png"
+    ],
+    "youtubeUrls": []
+  },
+  {
+    "id": 7,
+    "title": "aasdasdasdaadsda",
+    "description": "ヒーロー・ナビゲーション・配色を調整し、見た目の一貫性を改善。",
+    "images": [
+      "character.png",
+      "avatar.png",
+      "icon.jpg",
+      "95BvDCw.jpeg"
+    ],
+    "youtubeUrls": [
+      "https://www.youtube.com/embed/pu3SBmGYf48"
+    ]
+  }
+]
