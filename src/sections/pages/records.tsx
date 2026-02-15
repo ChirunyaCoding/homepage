@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -139,23 +139,37 @@ function RecordCardMedia({
   }, [images]);
 
   if (images.length > 0) {
-    const currentImage = images[activeImageIndex] ?? images[0];
-    const currentImageSrc = resolveImageSrc(baseUrl, currentImage);
+    const imageSources = images.map((image) => resolveImageSrc(baseUrl, image));
 
     return (
       <div className="relative w-full h-full overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={currentImageSrc}
-            src={currentImageSrc}
-            alt={title}
-            className="absolute inset-0 w-full h-full object-cover"
-            initial={{ opacity: 0.45 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0.45 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-          />
-        </AnimatePresence>
+        <motion.div
+          className="flex h-full w-full"
+          animate={{ x: `-${activeImageIndex * 100}%` }}
+          transition={{ duration: 0.45, ease: "easeInOut" }}
+        >
+          {imageSources.map((src, index) => (
+            <div key={`${src}-${index}`} className="h-full w-full shrink-0">
+              <img src={src} alt={`${title} ${index + 1}`} className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </motion.div>
+
+        {imageSources.length > 1 && (
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 rounded-full bg-black/30 px-2 py-1 backdrop-blur-sm">
+            {imageSources.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                aria-label={`画像 ${index + 1} に移動`}
+                onClick={() => setActiveImageIndex(index)}
+                className={`h-2 w-2 rounded-full transition-all ${
+                  index === activeImageIndex ? "bg-white" : "bg-white/55"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     );
   }
