@@ -212,29 +212,6 @@ export function Hero() {
               <AnimatedText text="　Studio" className="text-gradient" delay={0.6} />
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="text-lg text-slate-500 mb-8 leading-relaxed"
-            >
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.9 }}
-              >
-                ゲーム開発者 / プログラマー / YouTuber
-              </motion.span>
-              <br />
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1 }}
-              >
-                自作ゲーム・ツールの配布や活動記録を残しています。
-              </motion.span>
-            </motion.p>
-
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
