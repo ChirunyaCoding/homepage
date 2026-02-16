@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { Package, ExternalLink, Play, ChevronLeft, Gamepad2, Wrench, ArrowUpDown, Sparkles, Zap } from "lucide-react";
+import { Package, ExternalLink, Play, ChevronLeft, Gamepad2, Wrench, ArrowUpDown, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";

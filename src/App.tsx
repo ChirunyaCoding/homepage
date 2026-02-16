@@ -1,22 +1,32 @@
-import { useState } from 'react'
-import './App.css'
+import { Navigation } from "./components/Navigation";
+import { Hero } from "./sections/Hero";
+import { YouTube } from "./sections/YouTube";
+import { Games } from "./sections/Games";
+import { Tools } from "./sections/Tools";
+import { Footer } from "./sections/Footer";
+import { CuteBackground } from "./components/CuteBackground";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-    </>
-  )
+    <div className="relative min-h-screen overflow-hidden">
+      {/* 🌸 可愛い背景 */}
+      <CuteBackground />
+      
+      {/* ナビゲーション */}
+      <Navigation />
+      
+      {/* メインコンテンツ */}
+      <main className="relative z-10">
+        <Hero />
+        <YouTube />
+        <Games />
+        <Tools />
+      </main>
+      
+      {/* フッター */}
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -1,67 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    /* 🎀 可愛いパステルカラーテーマ */
+    --background: 340 100% 99%;
+    --foreground: 330 20% 25%;
+    --card: 340 100% 99%;
+    --card-foreground: 330 20% 25%;
+    --popover: 340 100% 99%;
+    --popover-foreground: 330 20% 25%;
+    --primary: 330 80% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 280 60% 95%;
+    --secondary-foreground: 280 30% 35%;
+    --muted: 340 30% 96%;
+    --muted-foreground: 330 10% 50%;
+    --accent: 40 100% 75%;
+    --accent-foreground: 30 60% 30%;
+    --destructive: 0 84% 70%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.625rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 330 40% 92%;
+    --input: 330 40% 92%;
+    --ring: 330 80% 65%;
+    --radius: 1rem;
+    --sidebar-background: 340 100% 99%;
+    --sidebar-foreground: 330 20% 25%;
+    --sidebar-primary: 330 80% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 280 60% 95%;
+    --sidebar-accent-foreground: 280 30% 35%;
+    --sidebar-border: 330 40% 92%;
+    --sidebar-ring: 330 80% 65%;
   }
 }
 
@@ -71,5 +44,107 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+/* 🌸 かわいいユーティリティクラス */
+@layer utilities {
+  /* ふんわりグラデーション */
+  .gradient-cute {
+    @apply bg-gradient-to-br from-pink-300 via-purple-300 to-indigo-300;
+  }
+  
+  .gradient-cute-soft {
+    @apply bg-gradient-to-br from-pink-200/50 via-purple-200/50 to-indigo-200/50;
+  }
+  
+  /* キラキラテキスト */
+  .text-sparkle {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500;
+  }
+  
+  /* ふわふわシャドウ */
+  .shadow-cute {
+    box-shadow: 0 4px 20px -2px rgba(236, 72, 153, 0.25),
+                0 8px 40px -4px rgba(168, 85, 247, 0.15);
+  }
+  
+  .shadow-cute-hover {
+    box-shadow: 0 8px 30px -2px rgba(236, 72, 153, 0.35),
+                0 16px 60px -4px rgba(168, 85, 247, 0.25);
+  }
+  
+  /* ガラスモーフィズム */
+  .glass-cute {
+    @apply bg-white/70 backdrop-blur-xl border border-pink-200/50;
+  }
+  
+  /* ぷにぷにエフェクト */
+  .bouncy {
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .bouncy:hover {
+    transform: scale(1.05) translateY(-2px);
+  }
+  
+  /* フローティングアニメーション */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+  }
+  
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  /* キラキラアニメーション */
+  @keyframes sparkle {
+    0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.7; transform: scale(1.2) rotate(180deg); }
+  }
+  
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+  
+  /* ハートビートアニメーション */
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.15); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.15); }
+    70% { transform: scale(1); }
+  }
+  
+  .animate-heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+  
+  /* ぷるぷるアニメーション */
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-1deg); }
+    50% { transform: rotate(1deg); }
+  }
+  
+  .animate-wiggle {
+    animation: wiggle 2s ease-in-out infinite;
+  }
+  
+  /* 背景ふわふわ */
+  @keyframes blob {
+    0%, 100% { transform: translate(0px, 0px) scale(1); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    33% { transform: translate(30px, -50px) scale(1.1); border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    66% { transform: translate(-20px, 20px) scale(0.9); border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+  }
+  
+  .animate-blob {
+    animation: blob 10s ease-in-out infinite;
+  }
+  
+  /* テキストグラデーション */
+  .text-gradient-cute {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-400 to-indigo-500;
   }
 }

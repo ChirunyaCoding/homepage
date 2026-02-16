@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import { motion, AnimatePresence } from "framer-motion";
-import { Youtube, Play, Eye, ThumbsUp, ExternalLink, ChevronLeft, BarChart3, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import { Play, Eye, ThumbsUp, ExternalLink, ChevronLeft, BarChart3, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Navigation } from "@/components/Navigation";
@@ -69,23 +69,6 @@ function AnimatedText({ text, delay = 0 }: { text: string; delay?: number }) {
         </motion.span>
       ))}
     </>
-  );
-}
-
-// パルスリング
-function PulseRing({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative">
-      <motion.div
-        className="absolute inset-0 rounded-full border-2 border-red-400"
-        animate={{
-          scale: [1, 1.3, 1.3],
-          opacity: [0.5, 0, 0],
-        }}
-        transition={{ duration: 2, repeat: Infinity }}
-      />
-      {children}
-    </div>
   );
 }
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, ChevronLeft, ChevronRight, Sparkles, Calendar, Tag, Clock, ExternalLink } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Sparkles, Tag, Clock, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+
 import { Navigation } from "@/components/Navigation";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { Footer } from "@/sections/Footer";
@@ -38,24 +38,6 @@ function AnimatedText({ text, delay = 0 }: { text: string; delay?: number }) {
         </motion.span>
       ))}
     </>
-  );
-}
-
-function ShimmerBadge({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <motion.div 
-      className={`relative overflow-hidden ${className}`}
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 400 }}
-    >
-      {children}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12"
-        initial={{ x: "-200%" }}
-        animate={{ x: "200%" }}
-        transition={{ duration: 2, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
-      />
-    </motion.div>
   );
 }
 
@@ -507,7 +489,7 @@ function RecordsPage() {
               animate="visible"
             >
               <AnimatePresence>
-                {visibleRecords.map((item, index) => {
+                {visibleRecords.map((item) => {
                   const primaryVideo = item.youtubeUrls[0] ? toYouTubeEmbedUrl(item.youtubeUrls[0]) : null;
 
                   return (
