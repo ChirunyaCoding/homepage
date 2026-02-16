@@ -826,11 +826,8 @@ function WorksPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <span className="text-slate-700">
-                <AnimatedText text="BOOTH" delay={0.3} />
-              </span>
-              <span className="text-gradient ml-2">
-                <AnimatedText text="SHOP" delay={0.5} />
+              <span className="text-gradient">
+                <AnimatedText text="SHOP" delay={0.3} />
               </span>
             </motion.h1>
             <motion.p 
