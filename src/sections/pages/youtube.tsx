@@ -954,11 +954,11 @@ function YouTubePage() {
                 <motion.div
                   key={channel.id}
                   whileHover={{ scale: 1.02 }}
-                  className="group"
+                  className="group h-full"
                 >
-                  <Card className="bg-white border-slate-200 hover:border-red-300 transition-all duration-300 hover:shadow-xl hover:shadow-red-100 overflow-hidden">
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-4">
+                  <Card className="h-full flex flex-col bg-white border-slate-200 hover:border-red-300 transition-all duration-300 hover:shadow-xl hover:shadow-red-100 overflow-hidden">
+                    <CardContent className="p-6 h-full flex flex-col">
+                      <div className="flex items-start gap-4 flex-1">
                         <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 shadow-lg bg-slate-100">
                           {channel.thumbnailUrl ? (
                             <img
@@ -972,9 +972,9 @@ function YouTubePage() {
                             </div>
                           )}
                         </div>
-                        <div className="flex-grow">
-                          <div className="flex items-start justify-between mb-2">
-                            <h3 className="text-lg font-bold text-slate-700 group-hover:text-red-500 transition-colors">
+                        <div className="flex-grow min-w-0">
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <h3 className="flex-1 min-w-0 text-lg leading-tight font-bold text-slate-700 group-hover:text-red-500 transition-colors line-clamp-2 min-h-[3rem]">
                               {channel.title}
                             </h3>
                             <Badge className="bg-red-500 text-white">
@@ -982,19 +982,19 @@ function YouTubePage() {
                               YouTube
                             </Badge>
                           </div>
-                          <p className="text-slate-500 text-sm mb-3">
+                          <p className="text-slate-500 text-sm mb-3 truncate">
                             @{normalizeHandle(channel.handle)}
                           </p>
-                          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400">
-                            <span className="flex items-center gap-1">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-slate-400">
+                            <span className="flex items-center gap-1 min-w-0">
                               <Eye className="w-4 h-4" />
                               {channel.subscriberCount !== null ? `${formatCount(channel.subscriberCount)} 登録者` : "登録者 -"}
                             </span>
-                            <span className="flex items-center gap-1">
+                            <span className="flex items-center gap-1 min-w-0">
                               <Play className="w-4 h-4" />
                               {channel.videoCount !== null ? `${formatCount(channel.videoCount)} 本の動画` : "動画数 -"}
                             </span>
-                            <span className="flex items-center gap-1">
+                            <span className="flex items-center gap-1 min-w-0 sm:col-span-2">
                               <BarChart3 className="w-4 h-4" />
                               {channel.totalViewCount !== null ? `${formatCount(channel.totalViewCount)} 総再生` : "再生数 -"}
                             </span>
