@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, Sparkles, Calendar, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Navigation } from "@/components/Navigation";
@@ -18,6 +18,8 @@ type GrowthRecord = {
   description: string;
   images: string[];
   youtubeUrls: string[];
+  date?: string;
+  tags?: string[];
 };
 
 // アニメーションコンポーネント
@@ -170,6 +172,8 @@ function normalizeRecords(data: unknown): GrowthRecord[] {
         description: toText(item.description),
         images,
         youtubeUrls,
+        date: toText(item.date),
+        tags: toTextArray(item.tags),
       };
     })
     .filter((item) => {
@@ -209,7 +213,7 @@ function RecordCardMedia({
     const imageSources = images.map((image) => resolveImageSrc(baseUrl, image));
 
     return (
-      <div className="relative w-full h-full overflow-hidden group">
+      <div className="relative w-full h-full overflow-hidden group bg-gradient-to-br from-slate-100 to-slate-200">
         <motion.div
           className="flex h-full w-full"
           animate={{ x: `-${activeImageIndex * 100}%` }}
@@ -218,20 +222,21 @@ function RecordCardMedia({
           {imageSources.map((src, index) => (
             <motion.div 
               key={`${src}-${index}`} 
-              className="h-full w-full shrink-0 relative overflow-hidden"
-              whileHover={{ scale: 1.05 }}
+              className="h-full w-full shrink-0 relative overflow-hidden p-4 flex items-center justify-center"
+              whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <img src={src} alt={`${title} ${index + 1}`} className="w-full h-full object-cover" />
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+              <img 
+                src={src} 
+                alt={`${title} ${index + 1}`} 
+                className="w-full h-full object-contain drop-shadow-lg" 
               />
             </motion.div>
           ))}
         </motion.div>
 
         {imageSources.length > 1 && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5 rounded-full bg-black/30 px-2 py-1 backdrop-blur-sm">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 rounded-full bg-black/40 px-3 py-1.5 backdrop-blur-sm">
             {imageSources.map((_, index) => (
               <motion.button
                 key={index}
@@ -240,17 +245,17 @@ function RecordCardMedia({
                 onClick={() => setActiveImageIndex(index)}
                 whileHover={{ scale: 1.3 }}
                 whileTap={{ scale: 0.9 }}
-                className={`h-2 w-2 rounded-full transition-all ${
-                  index === activeImageIndex ? "bg-white" : "bg-white/55"
+                className={`h-1.5 rounded-full transition-all ${
+                  index === activeImageIndex ? "bg-white w-4" : "bg-white/50 w-1.5"
                 }`}
               />
             ))}
           </div>
         )}
         
-        {/* 光の反射 */}
+        {/* 光の反射エフェクト */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 pointer-events-none"
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 pointer-events-none"
           initial={{ x: "-200%" }}
           whileHover={{ x: "200%" }}
           transition={{ duration: 0.8 }}
@@ -272,8 +277,13 @@ function RecordCardMedia({
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm">
-      メディアなし
+    <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm bg-gradient-to-br from-slate-100 to-slate-200">
+      <div className="flex flex-col items-center gap-2">
+        <div className="w-12 h-12 rounded-full bg-slate-300/50 flex items-center justify-center">
+          <BookOpen className="w-6 h-6 text-slate-400" />
+        </div>
+        <span>メディアなし</span>
+      </div>
     </div>
   );
 }
@@ -457,7 +467,7 @@ function RecordsPage() {
 
           {isLoading ? (
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
               initial="hidden"
               animate="visible"
               variants={containerVariants}
@@ -478,7 +488,7 @@ function RecordsPage() {
             </motion.div>
           ) : (
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -492,20 +502,23 @@ function RecordsPage() {
                       key={item.id}
                       variants={itemVariants}
                       layout
-                      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                      whileHover={{ y: -10, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
                     >
-                      <Card className="bg-white border-cyan-100 overflow-hidden h-full group hover:border-cyan-300 hover:shadow-xl hover:shadow-cyan-100/50 transition-all duration-300">
-                        <div className="aspect-[4/3] border-b border-cyan-100 bg-slate-50 overflow-hidden">
+                      <Card className="bg-white/80 backdrop-blur-sm border border-slate-200/60 overflow-hidden h-full group hover:border-cyan-300/60 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 rounded-2xl">
+                        <div className="aspect-[16/10] overflow-hidden relative">
                           <RecordCardMedia
                             images={item.images}
                             title={item.title}
                             baseUrl={baseUrl}
                             fallbackVideo={primaryVideo}
                           />
+                          {/* 画像上のグラデーションオーバーレイ */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         </div>
-                        <CardContent className="p-5">
+                        <CardContent className="p-6">
+                          {/* タイトル */}
                           <motion.h3 
-                            className="text-lg font-bold text-slate-700 mb-2 group-hover:text-cyan-600 transition-colors"
+                            className="text-xl font-bold text-slate-800 mb-3 group-hover:text-cyan-600 transition-colors duration-300 leading-tight"
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
@@ -513,7 +526,37 @@ function RecordsPage() {
                           >
                             {item.title}
                           </motion.h3>
-                          <p className="text-slate-500 leading-relaxed">{item.description}</p>
+                          
+                          {/* 説明文 */}
+                          <p className="text-slate-500 leading-relaxed text-sm mb-4 line-clamp-3">
+                            {item.description}
+                          </p>
+                          
+                          {/* メタ情報（日付・タグ） */}
+                          <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-slate-100">
+                            {item.date && (
+                              <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                                <Calendar className="w-3.5 h-3.5" />
+                                <span>{item.date}</span>
+                              </div>
+                            )}
+                            {item.tags && item.tags.length > 0 && (
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                {item.tags.slice(0, 3).map((tag, idx) => (
+                                  <span 
+                                    key={idx}
+                                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-600 text-xs font-medium"
+                                  >
+                                    <Tag className="w-3 h-3" />
+                                    {tag}
+                                  </span>
+                                ))}
+                                {item.tags.length > 3 && (
+                                  <span className="text-xs text-slate-400">+{item.tags.length - 3}</span>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </CardContent>
                       </Card>
                     </motion.div>
