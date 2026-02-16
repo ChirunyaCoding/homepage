@@ -124,6 +124,8 @@ type YouTubePlayerState = -1 | 0 | 1 | 2 | 3 | 5;
 
 type YouTubePlayerInstance = {
   destroy: () => void;
+  pauseVideo?: () => void;
+  stopVideo?: () => void;
 };
 
 type YouTubePlayerNamespace = {
@@ -487,55 +489,6 @@ function loadYouTubeIframeApi(): Promise<YouTubePlayerNamespace> {
   return youtubeIframeApiPromise;
 }
 
-function YouTubeVideoPlayer({
-  videoId,
-  onPlayingChange,
-}: {
-  videoId: string;
-  onPlayingChange: (value: boolean) => void;
-}) {
-  const mountRef = useRef<HTMLDivElement | null>(null);
-  const playerRef = useRef<YouTubePlayerInstance | null>(null);
-
-  useEffect(() => {
-    let disposed = false;
-    onPlayingChange(false);
-
-    const setup = async () => {
-      const yt = await loadYouTubeIframeApi();
-      if (disposed || !mountRef.current) return;
-
-      playerRef.current = new yt.Player(mountRef.current, {
-        videoId,
-        playerVars: {
-          rel: 0,
-          playsinline: 1,
-        },
-        events: {
-          onStateChange: (event) => {
-            onPlayingChange(event.data === yt.PlayerState.PLAYING);
-          },
-        },
-      });
-    };
-
-    setup().catch(() => {
-      onPlayingChange(false);
-    });
-
-    return () => {
-      disposed = true;
-      onPlayingChange(false);
-      if (playerRef.current) {
-        playerRef.current.destroy();
-        playerRef.current = null;
-      }
-    };
-  }, [videoId, onPlayingChange]);
-
-  return <div ref={mountRef} className="h-full w-full" />;
-}
-
 function ChannelVideoCarousel({
   channel,
   videos,
@@ -551,23 +504,10 @@ function ChannelVideoCarousel({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const playerMountRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const playerRefs = useRef<Record<string, YouTubePlayerInstance>>({});
 
-  useEffect(() => {
-    if (videos.length <= 1 || isGlobalPlaying) return;
-    const timerId = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % videos.length);
-    }, AUTO_SLIDE_INTERVAL_MS);
-    return () => window.clearInterval(timerId);
-  }, [isGlobalPlaying, videos.length]);
-
-  useEffect(() => {
-    return () => {
-      onChannelPlayingChange(channel.handle, false);
-    };
-  }, [channel.handle, onChannelPlayingChange]);
-
-  const resolvedActiveIndex = activeIndex < videos.length ? activeIndex : 0;
-  const activeVideo = videos[resolvedActiveIndex] ?? null;
+  const videosKey = useMemo(() => videos.map((video) => video.id).join(","), [videos]);
 
   const handlePlayingChange = useCallback(
     (value: boolean) => {
@@ -577,16 +517,99 @@ function ChannelVideoCarousel({
     [channel.handle, onChannelPlayingChange]
   );
 
+  const stopAllPlayers = useCallback(() => {
+    Object.values(playerRefs.current).forEach((player) => {
+      player.pauseVideo?.();
+      player.stopVideo?.();
+    });
+  }, []);
+
+  useEffect(() => {
+    if (videos.length <= 1 || isGlobalPlaying) return;
+    const timerId = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % videos.length);
+    }, AUTO_SLIDE_INTERVAL_MS);
+    return () => window.clearInterval(timerId);
+  }, [isGlobalPlaying, videos.length]);
+
+  const resolvedActiveIndex = activeIndex < videos.length ? activeIndex : 0;
+  const activeVideo = videos[resolvedActiveIndex] ?? null;
+
+  useEffect(() => {
+    let disposed = false;
+    handlePlayingChange(false);
+
+    const setupPlayers = async () => {
+      Object.values(playerRefs.current).forEach((player) => {
+        player.destroy();
+      });
+      playerRefs.current = {};
+
+      if (videos.length === 0) return;
+
+      const yt = await loadYouTubeIframeApi();
+      if (disposed) return;
+
+      for (const video of videos) {
+        const mount = playerMountRefs.current[video.id];
+        if (!mount) continue;
+
+        playerRefs.current[video.id] = new yt.Player(mount, {
+          videoId: video.id,
+          playerVars: {
+            rel: 0,
+            playsinline: 1,
+          },
+          events: {
+            onStateChange: (event) => {
+              handlePlayingChange(event.data === yt.PlayerState.PLAYING);
+            },
+          },
+        });
+      }
+    };
+
+    setupPlayers().catch(() => {
+      handlePlayingChange(false);
+    });
+
+    return () => {
+      disposed = true;
+      handlePlayingChange(false);
+      Object.values(playerRefs.current).forEach((player) => {
+        player.destroy();
+      });
+      playerRefs.current = {};
+    };
+  }, [handlePlayingChange, videos, videosKey]);
+
   return (
     <Card className="bg-white border-slate-200 hover:border-cyan-300 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-100 overflow-hidden">
       <div className="aspect-video bg-slate-100 relative overflow-hidden">
-        {activeVideo ? (
-          <>
-            <YouTubeVideoPlayer videoId={activeVideo.id} onPlayingChange={handlePlayingChange} />
-            <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
-              {formatDuration(activeVideo.durationIso)}
-            </div>
-          </>
+        {videos.length > 0 ? (
+          <motion.div
+            className="flex h-full w-full"
+            animate={{ x: `-${resolvedActiveIndex * 100}%` }}
+            transition={{ duration: 0.45, ease: "easeInOut" }}
+          >
+            {videos.map((video) => (
+              <div key={video.id} className="h-full w-full shrink-0 relative">
+                <div
+                  ref={(element) => {
+                    if (element) {
+                      playerMountRefs.current[video.id] = element;
+                    } else {
+                      delete playerMountRefs.current[video.id];
+                    }
+                  }}
+                  className="h-full w-full"
+                />
+                <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
+                  {formatDuration(video.durationIso)}
+                </div>
+              </div>
+            ))}
+          </motion.div>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm">
             {isLoading ? "動画を取得中..." : "動画が見つかりません"}
@@ -619,8 +642,8 @@ function ChannelVideoCarousel({
                   type="button"
                   aria-label={`${channel.title} ${index + 1}件目`}
                   onClick={() => {
-                    setIsPlaying(false);
-                    onChannelPlayingChange(channel.handle, false);
+                    stopAllPlayers();
+                    handlePlayingChange(false);
                     setActiveIndex(index);
                   }}
                   className={`h-2 w-2 rounded-full transition-all ${
