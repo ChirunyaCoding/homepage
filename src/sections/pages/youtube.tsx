@@ -35,10 +35,10 @@ type ChannelProfile = {
   fallbackEmoji: string;
   videoMode: VideoMode;
   channelId: string;
-  statsUrl: string;
   uploadsPlaylistId: string;
   subscriberCount: number | null;
   videoCount: number | null;
+  totalViewCount: number | null;
   thumbnailUrl: string;
 };
 
@@ -69,6 +69,7 @@ type YouTubeChannelItem = {
   statistics?: {
     subscriberCount?: string;
     videoCount?: string;
+    viewCount?: string;
   };
   contentDetails?: {
     relatedPlaylists?: {
@@ -266,10 +267,6 @@ function formatDuration(value: string): string {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-function buildNextCountsStatsUrl(channelId: string): string {
-  return `https://nextcounts.com/youtube/user/?u=${channelId}`;
-}
-
 function fallbackProfile(seed: ChannelSeed): ChannelProfile {
   return {
     id: seed.id,
@@ -280,10 +277,10 @@ function fallbackProfile(seed: ChannelSeed): ChannelProfile {
     fallbackEmoji: seed.fallbackEmoji,
     videoMode: seed.videoMode,
     channelId: seed.fallbackChannelId,
-    statsUrl: buildNextCountsStatsUrl(seed.fallbackChannelId),
     uploadsPlaylistId: "",
     subscriberCount: null,
     videoCount: null,
+    totalViewCount: null,
     thumbnailUrl: "",
   };
 }
@@ -333,10 +330,10 @@ async function fetchChannelProfile(seed: ChannelSeed, apiKey: string): Promise<C
     fallbackEmoji: seed.fallbackEmoji,
     videoMode: seed.videoMode,
     channelId: resolvedChannelId,
-    statsUrl: buildNextCountsStatsUrl(resolvedChannelId),
     uploadsPlaylistId: channelItem.contentDetails?.relatedPlaylists?.uploads ?? "",
     subscriberCount: toNullableNumber(channelItem.statistics?.subscriberCount),
     videoCount: toNullableNumber(channelItem.statistics?.videoCount),
+    totalViewCount: toNullableNumber(channelItem.statistics?.viewCount),
     thumbnailUrl: pickThumbnailUrl(channelItem.snippet?.thumbnails),
   };
 }
@@ -850,7 +847,7 @@ function YouTubePage() {
                           <p className="text-slate-500 text-sm mb-3">
                             @{normalizeHandle(channel.handle)}
                           </p>
-                          <div className="flex items-center gap-4 text-sm text-slate-400">
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400">
                             <span className="flex items-center gap-1">
                               <Eye className="w-4 h-4" />
                               {channel.subscriberCount !== null ? `${formatCount(channel.subscriberCount)} 登録者` : "登録者 -"}
@@ -859,20 +856,18 @@ function YouTubePage() {
                               <Play className="w-4 h-4" />
                               {channel.videoCount !== null ? `${formatCount(channel.videoCount)} 本の動画` : "動画数 -"}
                             </span>
+                            <span className="flex items-center gap-1">
+                              <BarChart3 className="w-4 h-4" />
+                              {channel.totalViewCount !== null ? `${formatCount(channel.totalViewCount)} 総再生` : "再生数 -"}
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="mt-4 pt-4 border-t border-slate-100">
                         <a href={channel.url} target="_blank" rel="noopener noreferrer">
                           <Button size="sm" className="w-full bg-red-500 hover:bg-red-600 text-white">
                             <ExternalLink className="w-4 h-4 mr-2" />
                             チャンネルを見る
-                          </Button>
-                        </a>
-                        <a href={channel.statsUrl} target="_blank" rel="noopener noreferrer">
-                          <Button size="sm" variant="outline" className="w-full border-cyan-200 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-300">
-                            <BarChart3 className="w-4 h-4 mr-2" />
-                            統計を見る
                           </Button>
                         </a>
                       </div>
