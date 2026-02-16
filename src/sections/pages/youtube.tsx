@@ -493,51 +493,42 @@ function ChannelVideoCarousel({
   channel,
   videos,
   isLoading,
-  isGlobalPlaying,
-  onChannelPlayingChange,
 }: {
   channel: ChannelProfile;
   videos: ChannelVideo[];
   isLoading: boolean;
-  isGlobalPlaying: boolean;
-  onChannelPlayingChange: (handle: string, value: boolean) => void;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const playerMountRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const playerRefs = useRef<Record<string, YouTubePlayerInstance>>({});
+  const playingVideoIdRef = useRef<string | null>(null);
 
   const videosKey = useMemo(() => videos.map((video) => video.id).join(","), [videos]);
 
-  const handlePlayingChange = useCallback(
-    (value: boolean) => {
-      setIsPlaying(value);
-      onChannelPlayingChange(channel.handle, value);
-    },
-    [channel.handle, onChannelPlayingChange]
-  );
-
-  const stopAllPlayers = useCallback(() => {
-    Object.values(playerRefs.current).forEach((player) => {
-      player.pauseVideo?.();
-      player.stopVideo?.();
-    });
+  const handlePlayingChange = useCallback((value: boolean) => {
+    setIsPlaying(value);
   }, []);
 
   useEffect(() => {
-    if (videos.length <= 1 || isGlobalPlaying) return;
+    if (videos.length <= 1 || isPlaying) return;
     const timerId = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % videos.length);
     }, AUTO_SLIDE_INTERVAL_MS);
     return () => window.clearInterval(timerId);
-  }, [isGlobalPlaying, videos.length]);
+  }, [isPlaying, videos.length]);
 
   const resolvedActiveIndex = activeIndex < videos.length ? activeIndex : 0;
-  const activeVideo = videos[resolvedActiveIndex] ?? null;
+  const playingIndex = playingVideoId ? videos.findIndex((video) => video.id === playingVideoId) : -1;
+  const displayIndex = playingIndex >= 0 ? playingIndex : resolvedActiveIndex;
+  const activeVideo = videos[displayIndex] ?? null;
 
   useEffect(() => {
     let disposed = false;
     handlePlayingChange(false);
+    setPlayingVideoId(null);
+    playingVideoIdRef.current = null;
 
     const setupPlayers = async () => {
       Object.values(playerRefs.current).forEach((player) => {
@@ -550,7 +541,7 @@ function ChannelVideoCarousel({
       const yt = await loadYouTubeIframeApi();
       if (disposed) return;
 
-      for (const video of videos) {
+      for (const [index, video] of videos.entries()) {
         const mount = playerMountRefs.current[video.id];
         if (!mount) continue;
 
@@ -562,7 +553,19 @@ function ChannelVideoCarousel({
           },
           events: {
             onStateChange: (event) => {
-              handlePlayingChange(event.data === yt.PlayerState.PLAYING);
+              if (event.data === yt.PlayerState.PLAYING) {
+                playingVideoIdRef.current = video.id;
+                setPlayingVideoId(video.id);
+                setActiveIndex(index);
+                handlePlayingChange(true);
+                return;
+              }
+
+              if (playingVideoIdRef.current === video.id) {
+                playingVideoIdRef.current = null;
+                setPlayingVideoId(null);
+                handlePlayingChange(false);
+              }
             },
           },
         });
@@ -571,11 +574,15 @@ function ChannelVideoCarousel({
 
     setupPlayers().catch(() => {
       handlePlayingChange(false);
+      setPlayingVideoId(null);
+      playingVideoIdRef.current = null;
     });
 
     return () => {
       disposed = true;
       handlePlayingChange(false);
+      setPlayingVideoId(null);
+      playingVideoIdRef.current = null;
       Object.values(playerRefs.current).forEach((player) => {
         player.destroy();
       });
@@ -589,7 +596,7 @@ function ChannelVideoCarousel({
         {videos.length > 0 ? (
           <motion.div
             className="flex h-full w-full"
-            animate={{ x: `-${resolvedActiveIndex * 100}%` }}
+            animate={{ x: `-${displayIndex * 100}%` }}
             transition={{ duration: 0.45, ease: "easeInOut" }}
           >
             {videos.map((video) => (
@@ -642,12 +649,11 @@ function ChannelVideoCarousel({
                   type="button"
                   aria-label={`${channel.title} ${index + 1}件目`}
                   onClick={() => {
-                    stopAllPlayers();
-                    handlePlayingChange(false);
+                    if (isPlaying) return;
                     setActiveIndex(index);
                   }}
                   className={`h-2 w-2 rounded-full transition-all ${
-                    index === resolvedActiveIndex ? "bg-cyan-500" : "bg-slate-300 hover:bg-slate-400"
+                    index === displayIndex ? "bg-cyan-500" : "bg-slate-300 hover:bg-slate-400"
                   }`}
                 />
               ))}
@@ -672,23 +678,6 @@ function YouTubePage() {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
-  const [playingByHandle, setPlayingByHandle] = useState<Record<string, boolean>>({});
-
-  const isAnyVideoPlaying = useMemo(
-    () => Object.values(playingByHandle).some((value) => value),
-    [playingByHandle]
-  );
-
-  const handleChannelPlayingChange = useCallback((handle: string, value: boolean) => {
-    const normalized = normalizeHandle(handle);
-    setPlayingByHandle((prev) => {
-      if (prev[normalized] === value) return prev;
-      return {
-        ...prev,
-        [normalized]: value,
-      };
-    });
-  }, []);
 
   useEffect(() => {
     let disposed = false;
@@ -888,8 +877,6 @@ function YouTubePage() {
                     channel={channel}
                     videos={videosByHandle[normalizeHandle(channel.handle)] ?? []}
                     isLoading={isLoading}
-                    isGlobalPlaying={isAnyVideoPlaying}
-                    onChannelPlayingChange={handleChannelPlayingChange}
                   />
                 </motion.div>
               ))}

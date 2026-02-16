@@ -72,8 +72,8 @@ export function ParticlesBackground() {
       });
 
       // Draw connections
-      ctx.strokeStyle = "#22d3ee";
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = "#0891b2";
+      ctx.lineWidth = 1.25;
 
       for (let i = 0; i < particlesRef.current.length; i++) {
         for (let j = i + 1; j < particlesRef.current.length; j++) {
@@ -85,7 +85,8 @@ export function ParticlesBackground() {
             ctx.beginPath();
             ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
             ctx.lineTo(particlesRef.current[j].x, particlesRef.current[j].y);
-            ctx.globalAlpha = 0.4 * (1 - distance / 150);
+            // Keep a minimum alpha so distant connections are still visible.
+            ctx.globalAlpha = 0.25 + 0.55 * (1 - distance / 150);
             ctx.stroke();
           }
         }
