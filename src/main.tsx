@@ -36,7 +36,7 @@ function AnimatedText({ text, className, delay = 0 }: { text: string; className?
 }
 
 const baseUrl = import.meta.env.BASE_URL || "/";
-const youtubeChannelUrl = "https://www.youtube.com/@%E3%81%A1%E3%81%AF%E3%82%8B21";
+const youtubeChannelUrl = "https://www.youtube.com/@%E3%81%A1%E3%81%AF%E3%82%8B_Dev";
 
 const profileSocialLinks = [
   { name: "YouTube", icon: Youtube, href: youtubeChannelUrl, color: "from-red-500 to-rose-500" },
