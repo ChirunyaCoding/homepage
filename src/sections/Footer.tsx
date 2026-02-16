@@ -122,17 +122,6 @@ export function Footer() {
                 </motion.span>
               </span>
             </motion.a>
-            <motion.p 
-              className="text-slate-500 text-sm leading-relaxed mb-6"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              ゲーム開発者 / プログラマー / YouTuber
-              <br />
-              自作ゲーム・ツールの配布や活動記録を残しています。
-            </motion.p>
             <div className="flex gap-3">
               {socialLinks.map((link, index) => (
                 <SocialLink key={link.name} link={link} index={index} />
