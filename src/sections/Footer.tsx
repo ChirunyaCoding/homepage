@@ -164,14 +164,14 @@ export function Footer() {
                 delay={0}
               />
               <SocialLink
-                href="https://x.com/ChihaluCoding"
+                href="https://x.com/ChirunyaCoding"
                 icon={Twitter}
                 label="X (Twitter)"
                 color="bg-gradient-to-br from-slate-700 to-slate-800"
                 delay={1}
               />
               <SocialLink
-                href="https://github.com/ChihaluCoding"
+                href="https://github.com/ChirunyaCoding"
                 icon={Github}
                 label="GitHub"
                 color="bg-gradient-to-br from-purple-500 to-indigo-500"

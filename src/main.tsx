@@ -65,8 +65,8 @@ function buildYouTubeApiUrl(endpoint: string, params: Record<string, string | nu
 
 const profileSocialLinks = [
   { name: "YouTube", icon: Youtube, href: youtubeChannelUrl, color: "from-red-500 to-rose-500" },
-  { name: "X", icon: Twitter, href: "https://x.com/ChihaluCoding", color: "from-sky-400 to-blue-500" },
-  { name: "GitHub", icon: Github, href: "https://github.com/ChihaluCoding", color: "from-slate-500 to-slate-700" },
+  { name: "X", icon: Twitter, href: "https://x.com/ChirunyaCoding", color: "from-sky-400 to-blue-500" },
+  { name: "GitHub", icon: Github, href: "https://github.com/ChirunyaCoding", color: "from-slate-500 to-slate-700" },
 ];
 
 function HomePage() {
