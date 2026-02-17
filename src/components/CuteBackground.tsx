@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
-// 🌸 パーティクルネットワーク背景
+// 🌸 可愛いパーティクルネットワーク背景
 function ParticleNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -16,35 +17,55 @@ function ParticleNetwork() {
     let animationId: number;
     let particles: Particle[] = [];
 
-    // パステルカラー
-    const colors = [
-      "rgba(244, 114, 182, 0.6)", // pink-400
-      "rgba(167, 139, 250, 0.6)", // purple-400
-      "rgba(96, 165, 250, 0.5)",  // blue-400
-      "rgba(244, 63, 94, 0.5)",   // rose-400
-      "rgba(251, 191, 36, 0.5)",  // amber-400
-    ];
+    // パーティクルの形状タイプ
+    type ShapeType = "star" | "heart" | "circle" | "flower";
 
     class Particle {
       x: number;
       y: number;
       vx: number;
       vy: number;
-      radius: number;
+      size: number;
       color: string;
+      shape: ShapeType;
+      rotation: number;
+      rotationSpeed: number;
+      pulse: number;
 
       constructor(canvasWidth: number, canvasHeight: number) {
         this.x = Math.random() * canvasWidth;
         this.y = Math.random() * canvasHeight;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 2 + 1;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.size = Math.random() * 4 + 3;
+        
+        // 可愛いパステルカラー
+        const colors = [
+          "#F472B6", // pink-400
+          "#EC4899", // pink-500
+          "#F9A8D4", // pink-300
+          "#A78BFA", // purple-400
+          "#C084FC", // purple-400
+          "#FBBF24", // amber-400
+          "#F87171", // red-400
+          "#FB7185", // rose-400
+        ];
         this.color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // 形状をランダムに選択
+        const shapes: ShapeType[] = ["star", "heart", "circle", "flower"];
+        this.shape = shapes[Math.floor(Math.random() * shapes.length)];
+        
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+        this.pulse = 0;
       }
 
       update(canvasWidth: number, canvasHeight: number) {
         this.x += this.vx;
         this.y += this.vy;
+        this.rotation += this.rotationSpeed;
+        this.pulse += 0.05;
 
         // 画面端でバウンス
         if (this.x < 0 || this.x > canvasWidth) this.vx *= -1;
@@ -52,9 +73,88 @@ function ParticleNetwork() {
       }
 
       draw(ctx: CanvasRenderingContext2D) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        
+        // パルス効果
+        const pulseScale = 1 + Math.sin(this.pulse) * 0.1;
+        ctx.scale(pulseScale, pulseScale);
+        
         ctx.fillStyle = this.color;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 10;
+        
+        switch (this.shape) {
+          case "star":
+            this.drawStar(ctx, 0, 0, 5, this.size, this.size / 2);
+            break;
+          case "heart":
+            this.drawHeart(ctx, 0, 0, this.size);
+            break;
+          case "flower":
+            this.drawFlower(ctx, 0, 0, this.size);
+            break;
+          case "circle":
+          default:
+            ctx.beginPath();
+            ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+            ctx.fill();
+            break;
+        }
+        
+        ctx.restore();
+      }
+
+      drawStar(ctx: CanvasRenderingContext2D, cx: number, cy: number, spikes: number, outerRadius: number, innerRadius: number) {
+        let rot = Math.PI / 2 * 3;
+        let x = cx;
+        let y = cy;
+        const step = Math.PI / spikes;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - outerRadius);
+        for (let i = 0; i < spikes; i++) {
+          x = cx + Math.cos(rot) * outerRadius;
+          y = cy + Math.sin(rot) * outerRadius;
+          ctx.lineTo(x, y);
+          rot += step;
+
+          x = cx + Math.cos(rot) * innerRadius;
+          y = cy + Math.sin(rot) * innerRadius;
+          ctx.lineTo(x, y);
+          rot += step;
+        }
+        ctx.lineTo(cx, cy - outerRadius);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      drawHeart(ctx: CanvasRenderingContext2D, x: number, y: number, size: number) {
+        ctx.beginPath();
+        ctx.moveTo(x, y + size / 4);
+        ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + size / 4);
+        ctx.bezierCurveTo(x - size / 2, y + size / 2, x, y + size * 0.75, x, y + size);
+        ctx.bezierCurveTo(x, y + size * 0.75, x + size / 2, y + size / 2, x + size / 2, y + size / 4);
+        ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + size / 4);
+        ctx.fill();
+      }
+
+      drawFlower(ctx: CanvasRenderingContext2D, x: number, y: number, size: number) {
+        const petals = 6;
+        for (let i = 0; i < petals; i++) {
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate((Math.PI * 2 / petals) * i);
+          ctx.beginPath();
+          ctx.ellipse(0, size / 2, size / 3, size / 2, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+        // 中心
+        ctx.beginPath();
+        ctx.arc(x, y, size / 3, 0, Math.PI * 2);
+        ctx.fillStyle = "#FEF3C7"; // 黄色の中心
         ctx.fill();
       }
     }
@@ -66,14 +166,14 @@ function ParticleNetwork() {
 
     const createParticles = () => {
       particles = [];
-      const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+      const particleCount = Math.floor((canvas.width * canvas.height) / 12000);
       for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle(canvas.width, canvas.height));
       }
     };
 
     const drawConnections = () => {
-      const maxDistance = 150;
+      const maxDistance = 180;
       
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
@@ -82,10 +182,19 @@ function ParticleNetwork() {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < maxDistance) {
-            const opacity = (1 - distance / maxDistance) * 0.3;
+            const opacity = (1 - distance / maxDistance) * 0.4;
+            
+            // グラデーション線
+            const gradient = ctx.createLinearGradient(
+              particles[i].x, particles[i].y,
+              particles[j].x, particles[j].y
+            );
+            gradient.addColorStop(0, particles[i].color + Math.floor(opacity * 255).toString(16).padStart(2, "0"));
+            gradient.addColorStop(1, particles[j].color + Math.floor(opacity * 255).toString(16).padStart(2, "0"));
+            
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(244, 114, 182, ${opacity})`;
-            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 1.5;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
@@ -97,14 +206,14 @@ function ParticleNetwork() {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // 接続線を先に描画
+      drawConnections();
+
       // パーティクル更新と描画
       particles.forEach((particle) => {
         particle.update(canvas.width, canvas.height);
         particle.draw(ctx);
       });
-
-      // 線で繋ぐ
-      drawConnections();
 
       animationId = requestAnimationFrame(animate);
     };
@@ -128,28 +237,28 @@ function ParticleNetwork() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.8 }}
+      style={{ opacity: 0.9 }}
     />
   );
 }
 
-// 💫 きらきら星（少しだけ残す）
+// 💫 きらきら星（装飾用）
 function TwinklingStars() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {Array.from({ length: 10 }).map((_, i) => (
+      {Array.from({ length: 8 }).map((_, i) => (
         <motion.div
           key={i}
           className="absolute"
           style={{
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            width: 4 + Math.random() * 6,
-            height: 4 + Math.random() * 6,
+            width: 6 + Math.random() * 6,
+            height: 6 + Math.random() * 6,
           }}
           animate={{
             scale: [0, 1, 0],
-            opacity: [0, 0.8, 0],
+            opacity: [0, 0.9, 0],
             rotate: [0, 180, 360],
           }}
           transition={{
@@ -193,9 +302,6 @@ function SoftBlobs() {
     </div>
   );
 }
-
-// モーションコンポーネントのimportを追加
-import { motion } from "framer-motion";
 
 export function CuteBackground() {
   return (
