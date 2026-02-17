@@ -462,21 +462,24 @@ class RecordsGui:
 
         self.status_var.set(f"編集中メディア: 画像 {len(self.form_images)} / 動画 {len(self.form_youtube_urls)}")
 
-    def add_image_reference(self, image_ref: str) -> bool:
+    def add_image_reference(self, image_ref: str, show_messages: bool = True) -> bool:
         normalized = normalize_image_reference(image_ref)
         if not normalized:
-            messagebox.showwarning("入力不足", "画像ファイル名を入力してください。")
+            if show_messages:
+                messagebox.showwarning("入力不足", "画像ファイル名を入力してください。")
             return False
 
         if not image_exists_in_public(self.public_dir, normalized):
-            messagebox.showwarning(
-                "画像が見つかりません",
-                "指定した画像が public 配下に見つかりません。",
-            )
+            if show_messages:
+                messagebox.showwarning(
+                    "画像が見つかりません",
+                    "指定した画像が public 配下に見つかりません。",
+                )
             return False
 
         if normalized in self.form_images:
-            messagebox.showinfo("重複", "その画像はすでに追加されています。")
+            if show_messages:
+                messagebox.showinfo("重複", "その画像はすでに追加されています。")
             return False
 
         self.form_images.append(normalized)
@@ -487,35 +490,68 @@ class RecordsGui:
         if self.add_image_reference(self.image_var.get()):
             self.image_var.set("")
 
-    def browse_image(self) -> None:
-        selected = filedialog.askopenfilename(
-            title="画像ファイルを選択",
-            initialdir=str(self.public_dir),
-            filetypes=[
-                ("画像ファイル", "*.png *.jpg *.jpeg *.webp *.gif *.bmp *.svg *.avif"),
-                ("すべてのファイル", "*.*"),
-            ],
-        )
-        if not selected:
-            return
-
+    def resolve_or_copy_image_ref(self, selected: str) -> tuple[str | None, bool]:
         selected_path = Path(selected).resolve()
         public_root = self.public_dir.resolve()
 
         try:
             image_ref = selected_path.relative_to(public_root).as_posix()
+            return (image_ref, False)
         except ValueError:
             target = safe_public_target(self.public_dir, selected_path.name)
             try:
                 shutil.copy2(selected_path, target)
             except Exception as exc:  # noqa: BLE001
                 messagebox.showerror("コピーエラー", f"画像のコピーに失敗しました:\n{exc}")
-                return
+                return (None, False)
             image_ref = target.relative_to(self.public_dir).as_posix()
-            messagebox.showinfo("画像をコピーしました", f"public/{image_ref} にコピーしました。")
+            return (image_ref, True)
 
-        self.image_var.set(image_ref)
-        self.add_image_from_input()
+    def browse_image(self) -> None:
+        selected_items = filedialog.askopenfilenames(
+            title="画像ファイルを選択（複数選択可）",
+            initialdir=str(self.public_dir),
+            filetypes=[
+                ("画像ファイル", "*.png *.jpg *.jpeg *.webp *.gif *.bmp *.svg *.avif"),
+                ("すべてのファイル", "*.*"),
+            ],
+        )
+        if not selected_items:
+            return
+
+        added_count = 0
+        copied_refs: list[str] = []
+        skipped_count = 0
+
+        for selected in selected_items:
+            image_ref, copied = self.resolve_or_copy_image_ref(selected)
+            if not image_ref:
+                skipped_count += 1
+                continue
+
+            if copied:
+                copied_refs.append(image_ref)
+
+            if self.add_image_reference(image_ref, show_messages=False):
+                added_count += 1
+            else:
+                skipped_count += 1
+
+        if copied_refs:
+            max_display = 5
+            displayed = copied_refs[:max_display]
+            copied_text = "\n".join(f"public/{item}" for item in displayed)
+            if len(copied_refs) > max_display:
+                copied_text += f"\n... 他 {len(copied_refs) - max_display} 件"
+            messagebox.showinfo("画像をコピーしました", copied_text)
+
+        if added_count == 0:
+            messagebox.showinfo("追加なし", "追加できる画像がありませんでした。")
+        else:
+            suffix = f"（未追加 {skipped_count} 件）" if skipped_count > 0 else ""
+            self.status_var.set(f"画像を {added_count} 件追加しました{suffix}")
+
+        self.image_var.set("")
         self.refresh_image_candidates()
 
     def remove_selected_image(self) -> None:
