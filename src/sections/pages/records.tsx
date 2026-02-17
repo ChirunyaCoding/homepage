@@ -207,8 +207,6 @@ function RecordCardMedia({
                 alt={`${title} ${index + 1}`} 
                 className="w-full h-full object-cover" 
               />
-              {/* グラデーションオーバーレイ */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             </motion.div>
           ))}
         </motion.div>
@@ -443,9 +441,6 @@ function RecordsPage() {
                             baseUrl={baseUrl}
                             fallbackVideo={primaryVideo}
                           />
-                          
-                          {/* ホバー時のオーバーレイ */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
                           
                           {/* 日付バッジ */}
                           {item.date && (
