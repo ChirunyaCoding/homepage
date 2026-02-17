@@ -2,16 +2,32 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import {
+  Menu,
+  X,
+  Home,
+  Tv,
+  ShoppingBag,
+  BookOpen,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
 import siteIcon from "../../icon.png";
 
 const baseUrl = import.meta.env.BASE_URL || "/";
 
-const navItems = [
-  { name: "ほーむ", href: baseUrl, icon: "🏠", color: "hover:bg-pink-50" },
-  { name: "ようつべ", href: `${baseUrl}youtube/`, icon: "📺", color: "hover:bg-rose-50" },
-  { name: "しょっぷ", href: `${baseUrl}works/`, icon: "🛍️", color: "hover:bg-purple-50" },
-  { name: "きろく", href: `${baseUrl}records/`, icon: "📚", color: "hover:bg-indigo-50" },
+type NavItem = {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+  color: string;
+};
+
+const navItems: NavItem[] = [
+  { name: "ほーむ", href: baseUrl, icon: Home, color: "hover:bg-pink-50" },
+  { name: "ようつべ", href: `${baseUrl}youtube/`, icon: Tv, color: "hover:bg-rose-50" },
+  { name: "しょっぷ", href: `${baseUrl}works/`, icon: ShoppingBag, color: "hover:bg-purple-50" },
+  { name: "きろく", href: `${baseUrl}records/`, icon: BookOpen, color: "hover:bg-indigo-50" },
 ];
 
 // ナビゲーションリンク
@@ -19,10 +35,11 @@ function NavLink({
   item,
   index,
 }: {
-  item: typeof navItems[0];
+  item: NavItem;
   index: number;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const Icon = item.icon;
 
   return (
     <motion.a
@@ -49,11 +66,11 @@ function NavLink({
 
       {/* アイコン */}
       <motion.span
-        className="relative z-10 text-xl"
+        className="relative z-10"
         animate={{ rotate: isHovered ? 360 : 0, scale: isHovered ? 1.2 : 1 }}
         transition={{ duration: 0.5 }}
       >
-        {item.icon}
+        <Icon className="w-5 h-5" />
       </motion.span>
 
       <span className="relative z-10 text-base font-bold">{item.name}</span>
@@ -96,7 +113,7 @@ function AnimatedLogo() {
           className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl object-cover shadow-lg border-2 border-pink-200"
         />
         <motion.div
-          className="absolute -top-1 -right-1 text-lg"
+          className="absolute -top-1 -right-1 text-pink-500"
           animate={{
             rotate: [0, 20, -20, 0],
             scale: [1, 1.3, 1],
@@ -107,7 +124,7 @@ function AnimatedLogo() {
             repeatDelay: 1,
           }}
         >
-          ✨
+          <Sparkles className="w-4 h-4" />
         </motion.div>
       </motion.div>
       <span className="font-bold text-xl lg:text-2xl hidden sm:block">
@@ -253,7 +270,7 @@ export function Navigation() {
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <span className="text-3xl">{item.icon}</span>
+                    <item.icon className="w-8 h-8" />
                   </motion.div>
                   <span className="relative">
                     {item.name}
@@ -266,33 +283,6 @@ export function Navigation() {
                   </span>
                 </motion.a>
               ))}
-
-              {/* 装飾 */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0 }}
-                transition={{ delay: 0.5, type: "spring" }}
-                className="mt-8 flex gap-4"
-              >
-                {[...Array(5)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="text-2xl"
-                    animate={{
-                      y: [0, -10, 0],
-                      rotate: [0, 10, -10, 0],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      delay: i * 0.2,
-                    }}
-                  >
-                    {["🌸", "✨", "💖", "🎀", "⭐"][i]}
-                  </motion.div>
-                ))}
-              </motion.div>
             </nav>
           </motion.div>
         )}
