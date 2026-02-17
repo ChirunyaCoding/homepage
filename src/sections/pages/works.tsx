@@ -782,21 +782,6 @@ function WorksPage() {
             transition={{ duration: 0.6 }}
             className="mx-auto mb-16 max-w-4xl rounded-3xl border border-slate-200/80 bg-white/86 px-6 py-8 text-center shadow-sm backdrop-blur-md"
           >
-            <motion.div 
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-100 border border-cyan-200 mb-6"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 300 }}
-            >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              >
-                <Package className="w-4 h-4 text-cyan-500" />
-              </motion.div>
-              <span className="text-sm text-cyan-600 font-medium">しょっぷ</span>
-            </motion.div>
-
             <motion.h1 
               className="text-3xl lg:text-5xl font-bold mb-4"
               initial={{ opacity: 0, y: 20 }}

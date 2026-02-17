@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { motion } from "framer-motion";
-import { Sparkles, Youtube, Twitter, Github, ChevronRight, MapPin, CalendarDays } from "lucide-react";
+import { Youtube, Twitter, Github, ChevronRight, MapPin, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -180,33 +180,6 @@ function HomePage() {
               className="w-full max-w-2xl space-y-6"
             >
               <div className="relative overflow-hidden rounded-[28px] border border-cyan-100/80 bg-white p-6 sm:p-9 lg:p-12 text-center lg:text-left">
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ delay: 0.3, type: "spring", stiffness: 300 }}
-                  className="relative flex items-center justify-center mb-6"
-                >
-                  <motion.div 
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-100 to-sky-100 border border-cyan-200/80 relative overflow-hidden group"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <motion.div
-                      animate={{ rotate: 360, scale: [1, 1.2, 1] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                    >
-                      <Sparkles className="w-4 h-4 text-cyan-500" />
-                    </motion.div>
-                    <span className="text-sm text-cyan-700 font-semibold tracking-wide relative z-10">ようこそっ！</span>
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-cyan-200/0 via-cyan-200/50 to-cyan-200/0"
-                      initial={{ x: "-100%" }}
-                      animate={{ x: "100%" }}
-                      transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
-                    />
-                  </motion.div>
-                </motion.div>
-
                 <motion.h1
                   className="relative text-5xl sm:text-6xl lg:text-7xl font-black mb-6 tracking-tight leading-[1.05] break-words"
                 >
