@@ -170,24 +170,6 @@ function HomePage() {
                   className="relative z-10 w-full h-full object-contain"
                 />
 
-                {[...Array(5)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute z-0 w-2 h-2 bg-cyan-400 rounded-full"
-                    style={{ left: `${20 + i * 15}%`, top: `${30 + i * 10}%` }}
-                    animate={{
-                      y: [-20, -40, -20],
-                      opacity: [0.4, 0.9, 0.4],
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      duration: 2 + i * 0.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: i * 0.3,
-                    }}
-                  />
-                ))}
               </div>
             </motion.div>
 
