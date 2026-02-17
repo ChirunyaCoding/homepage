@@ -13,7 +13,7 @@ import "@/index.css";
 const baseUrl = import.meta.env.BASE_URL || "/";
 const youtubeChannelUrl = "https://www.youtube.com/@%E3%81%A1%E3%81%AF%E3%82%8B_Dev";
 const youtubeApiBase = "https://www.googleapis.com/youtube/v3";
-const liveStatusPollMs = 120000;
+const liveStatusPollMs = 30000;
 const youtubeLivePlaylistId = "PLBh2x2qJSI_opl-isgv2ZzfQuqhEThxLX";
 
 type YouTubePlaylistItemsResponse = {
@@ -76,7 +76,7 @@ async function hasLiveInPlaylist(apiKey: string): Promise<boolean> {
     }
 
     const playlistUrl = buildYouTubeApiUrl("playlistItems", playlistParams);
-    const playlistResponse = await fetch(playlistUrl);
+    const playlistResponse = await fetch(playlistUrl, { cache: "no-store" });
     if (!playlistResponse.ok) {
       throw new Error(`YouTube API error: ${playlistResponse.status}`);
     }
@@ -96,7 +96,7 @@ async function hasLiveInPlaylist(apiKey: string): Promise<boolean> {
         id: idChunk.join(","),
         key: apiKey,
       });
-      const videosResponse = await fetch(videosUrl);
+      const videosResponse = await fetch(videosUrl, { cache: "no-store" });
       if (!videosResponse.ok) {
         throw new Error(`YouTube API error: ${videosResponse.status}`);
       }
@@ -130,12 +130,17 @@ function HomePage() {
 
   useEffect(() => {
     let disposed = false;
+    let isRefreshing = false;
 
     const updateLiveStatus = async () => {
+      if (isRefreshing) return;
+      isRefreshing = true;
+
       if (!youtubeApiKey) {
         if (!disposed) {
           setIsYouTubeLive(false);
         }
+        isRefreshing = false;
         return;
       }
 
@@ -149,15 +154,28 @@ function HomePage() {
         if (!disposed) {
           setIsYouTubeLive(false);
         }
+      } finally {
+        isRefreshing = false;
       }
     };
 
-    updateLiveStatus();
+    const triggerLiveStatusRefresh = () => {
+      if (document.visibilityState === "hidden") return;
+      void updateLiveStatus();
+    };
+
+    void updateLiveStatus();
     const timerId = window.setInterval(updateLiveStatus, liveStatusPollMs);
+    window.addEventListener("focus", triggerLiveStatusRefresh);
+    window.addEventListener("online", triggerLiveStatusRefresh);
+    document.addEventListener("visibilitychange", triggerLiveStatusRefresh);
 
     return () => {
       disposed = true;
       window.clearInterval(timerId);
+      window.removeEventListener("focus", triggerLiveStatusRefresh);
+      window.removeEventListener("online", triggerLiveStatusRefresh);
+      document.removeEventListener("visibilitychange", triggerLiveStatusRefresh);
     };
   }, [youtubeApiKey]);
 
