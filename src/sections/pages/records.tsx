@@ -22,25 +22,6 @@ type GrowthRecord = {
   tags?: string[];
 };
 
-// アニメーションコンポーネント
-function AnimatedText({ text, delay = 0 }: { text: string; delay?: number }) {
-  return (
-    <>
-      {text.split("").map((char, index) => (
-        <motion.span
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: delay + index * 0.03, duration: 0.3 }}
-          style={{ display: "inline-block" }}
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </>
-  );
-}
-
 function SkeletonCard() {
   return (
     <div className="relative bg-white rounded-3xl overflow-hidden shadow-lg h-full flex flex-col">
@@ -388,20 +369,15 @@ function RecordsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mx-auto mb-14 max-w-4xl rounded-3xl border border-slate-200/80 bg-white/86 px-6 py-8 text-center shadow-sm backdrop-blur-md"
+            className="text-center mb-14"
           >
             <motion.h1 
-              className="text-3xl lg:text-5xl font-bold mb-4"
+              className="text-3xl lg:text-5xl font-bold mb-4 text-slate-800"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <span className="text-slate-800">
-                <AnimatedText text="せいちょう" delay={0.3} />
-              </span>
-              <span className="text-cyan-700">
-                <AnimatedText text="きろく" delay={0.5} />
-              </span>
+              せいちょうきろく
             </motion.h1>
             <motion.p 
               className="text-slate-700 text-lg max-w-2xl mx-auto"
@@ -409,16 +385,7 @@ function RecordsPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              {"つくったものの進みぐあいを、カードでまとめています。".split("").map((char, index) => (
-                <motion.span
-                  key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 + index * 0.02 }}
-                >
-                  {char}
-                </motion.span>
-              ))}
+              つくったものの進みぐあいを、カードでまとめています。
             </motion.p>
           </motion.div>
 

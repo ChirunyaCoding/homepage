@@ -60,25 +60,6 @@ const EMPTY_DATA: WorksData = {
 
 type SortType = 'default' | 'price-asc' | 'price-desc';
 
-// アニメーションコンポーネント
-function AnimatedText({ text, delay = 0 }: { text: string; delay?: number }) {
-  return (
-    <>
-      {text.split("").map((char, index) => (
-        <motion.span
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: delay + index * 0.03, duration: 0.3 }}
-          style={{ display: "inline-block" }}
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </>
-  );
-}
-
 // 3Dチルトカード
 function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
   const x = useMotionValue(0);
@@ -780,17 +761,15 @@ function WorksPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mx-auto mb-16 max-w-4xl rounded-3xl border border-slate-200/80 bg-white/86 px-6 py-8 text-center shadow-sm backdrop-blur-md"
+            className="text-center mb-16"
           >
             <motion.h1 
-              className="text-3xl lg:text-5xl font-bold mb-4"
+              className="text-3xl lg:text-5xl font-bold mb-4 text-slate-800"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <span className="text-slate-800">
-                <AnimatedText text="しょっぷ" delay={0.3} />
-              </span>
+              しょっぷ
             </motion.h1>
             <motion.p 
               className="text-slate-700 text-lg max-w-2xl mx-auto"
@@ -798,16 +777,7 @@ function WorksPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              {"つくったゲームやツールを、BOOTHでおとどけしています。".split("").map((char, index) => (
-                <motion.span
-                  key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 + index * 0.02 }}
-                >
-                  {char}
-                </motion.span>
-              ))}
+              つくったゲームやツールを、BOOTHでおとどけしています。
             </motion.p>
           </motion.div>
 

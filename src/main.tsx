@@ -10,31 +10,6 @@ import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { Footer } from "@/sections/Footer";
 import "@/index.css";
 
-// 文字アニメーションコンポーネント
-function AnimatedText({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
-  const letters = text.split("");
-  
-  return (
-    <motion.span className={className}>
-      {letters.map((letter, index) => (
-        <motion.span
-          key={index}
-          initial={{ opacity: 0, y: 50, rotateX: -90 }}
-          animate={{ opacity: 1, y: 0, rotateX: 0 }}
-          transition={{
-            duration: 0.5,
-            delay: delay + index * 0.04,
-            ease: [0.16, 1, 0.3, 1]
-          }}
-          style={{ display: "inline-block" }}
-        >
-          {letter === " " ? "\u00A0" : letter}
-        </motion.span>
-      ))}
-    </motion.span>
-  );
-}
-
 const baseUrl = import.meta.env.BASE_URL || "/";
 const youtubeChannelUrl = "https://www.youtube.com/@%E3%81%A1%E3%81%AF%E3%82%8B_Dev";
 const youtubeApiBase = "https://www.googleapis.com/youtube/v3";
@@ -181,11 +156,9 @@ function HomePage() {
             >
               <div className="relative overflow-hidden rounded-[28px] border border-cyan-100/80 bg-white p-6 sm:p-9 lg:p-12 text-center lg:text-left">
                 <motion.h1
-                  className="relative text-5xl sm:text-6xl lg:text-7xl font-black mb-6 tracking-tight leading-[1.05] break-words"
+                  className="relative text-5xl sm:text-6xl lg:text-7xl font-black mb-6 tracking-tight leading-[1.05] break-words text-slate-700"
                 >
-                  <AnimatedText text="ちるにゃ" className="text-slate-700" delay={0.4} />
-                  <br className="sm:hidden" />
-                  <AnimatedText text="すたじお" className="bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-500 bg-clip-text text-transparent sm:ml-1" delay={0.6} />
+                  ちるにゃすたじお
                 </motion.h1>
 
                 <motion.p
@@ -194,17 +167,7 @@ function HomePage() {
                   transition={{ delay: 0.8 }}
                   className="relative text-xl text-slate-500 mb-9 leading-relaxed"
                 >
-                  {["自", "作", "ゲ", "ー", "ム", "・", "ツ", "ー", "ル", "等", "の", "販", "売", "や", "活", "動", "記", "録", "を", "残", "し", "て", "い", "ま", "す", "。"].map((char, index) => (
-                    <motion.span
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 + index * 0.02 }}
-                      style={{ display: "inline-block" }}
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
+                  自作ゲーム・ツール等の販売や活動記録を残しています。
                 </motion.p>
 
                 <motion.div
