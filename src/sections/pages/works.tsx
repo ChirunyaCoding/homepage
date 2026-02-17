@@ -768,7 +768,7 @@ function WorksPage() {
     <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
 
-      <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white via-cyan-50/30 to-white flex-1">
+      <section className="py-24 relative overflow-hidden bg-white flex-1">
         <ParticlesBackground />
 
         <div className="absolute inset-0">

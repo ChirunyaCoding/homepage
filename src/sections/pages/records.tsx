@@ -376,7 +376,7 @@ function RecordsPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white via-cyan-50/30 to-white">
+      <section className="py-24 relative overflow-hidden bg-white">
         <ParticlesBackground />
 
         <div className="absolute inset-0">
