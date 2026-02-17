@@ -5,12 +5,16 @@ import backgroundImage from "../../background.png";
 export function ParticlesBackground() {
   return (
     <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      <img
-        src={backgroundImage}
-        alt=""
+      <div
         aria-hidden="true"
-        className="h-full w-full object-cover"
-        style={{ opacity: 0.5 }}
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundPosition: "top center",
+          backgroundRepeat: "repeat-y",
+          backgroundSize: "100% auto",
+          opacity: 0.5,
+        }}
       />
     </div>
   );
