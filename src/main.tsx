@@ -214,7 +214,7 @@ function HomePage() {
             >
               <div className="relative overflow-hidden rounded-[28px] border border-cyan-100/80 bg-white p-6 sm:p-9 lg:p-12 text-center lg:text-left">
                 <motion.h1
-                  className="relative text-[clamp(2.4rem,8vw,4.8rem)] font-black mb-6 tracking-tight leading-[1.05] whitespace-nowrap text-slate-700"
+                  className="relative text-[clamp(1.75rem,6.5vw,4.8rem)] font-black mb-6 tracking-tight leading-[1.05] whitespace-nowrap text-slate-700"
                 >
                   <span className="text-slate-700">ちるにゃ。</span>
                   <span className="text-cyan-600">すたじお</span>
