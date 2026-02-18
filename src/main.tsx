@@ -216,7 +216,8 @@ function HomePage() {
                 <motion.h1
                   className="relative text-5xl sm:text-6xl lg:text-7xl font-black mb-6 tracking-tight leading-[1.05] break-words text-slate-700"
                 >
-                  ちるにゃすたじお
+                  <span className="text-slate-700">ちるにゃ</span>
+                  <span className="text-cyan-600">すたじお</span>
                 </motion.h1>
 
                 <motion.p

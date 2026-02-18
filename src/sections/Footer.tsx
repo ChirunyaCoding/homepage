@@ -1,26 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Heart, Youtube, Twitter, Github, ArrowUp } from "lucide-react";
+import { Youtube, Twitter, Github } from "lucide-react";
 import siteIcon from "../../icon.png";
-
-// アニメーションするハート
-function AnimatedHeart() {
-  return (
-    <motion.div
-      animate={{
-        scale: [1, 1.3, 1],
-      }}
-      transition={{
-        duration: 1,
-        repeat: Infinity,
-        repeatDelay: 0.5,
-      }}
-    >
-      <Heart className="w-5 h-5 text-pink-400 fill-pink-400" />
-    </motion.div>
-  );
-}
 
 // SNSリンク - 公式アイコン使用
 function SocialLink({
@@ -207,37 +189,6 @@ export function Footer() {
           >
             © 2024 ちるにゃすたじお. All rights reserved.
           </motion.p>
-
-          <motion.p
-            className="text-sm text-slate-400 flex items-center gap-2 font-bold"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-          >
-            <span>Made with</span>
-            <AnimatedHeart />
-            <span>by ちるにゃ。 🐱</span>
-          </motion.p>
-
-          {/* Back to top button */}
-          <motion.a
-            href="#"
-            className="mt-4 p-3 rounded-full bg-pink-100 text-pink-500 hover:bg-pink-200 transition-colors"
-            whileHover={{ scale: 1.1, y: -3 }}
-            whileTap={{ scale: 0.9 }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.7 }}
-          >
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <ArrowUp className="w-5 h-5" />
-            </motion.div>
-          </motion.a>
         </motion.div>
       </div>
     </footer>
