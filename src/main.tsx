@@ -226,7 +226,7 @@ function HomePage() {
                   transition={{ delay: 0.8 }}
                   className="relative text-xl text-slate-500 mb-9 leading-relaxed"
                 >
-                  自作ゲーム・ツール等の販売や活動記録を残しています。
+                  自作のゲームやツールを販売したり、これまでの作品記録をまとめたりしています。
                 </motion.p>
 
                 <motion.div
