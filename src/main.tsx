@@ -212,7 +212,7 @@ function HomePage() {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="w-full max-w-2xl space-y-6"
             >
-              <div className="relative overflow-hidden border border-cyan-100/80 bg-white p-6 sm:p-9 lg:p-12 text-center lg:text-left">
+              <div className="relative overflow-hidden bg-white p-6 sm:p-9 lg:p-12 text-center lg:text-left">
                 <motion.h1
                   className="relative text-[clamp(1.5rem,5.2vw,3.9rem)] font-black mb-6 tracking-tight leading-[1.05] whitespace-nowrap text-slate-700"
                 >
