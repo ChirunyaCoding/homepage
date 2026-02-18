@@ -385,7 +385,7 @@ function RecordsPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              つくったものの進みぐあいを、カードでまとめています。
+              作ったものをまとめています
             </motion.p>
           </motion.div>
 
