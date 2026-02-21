@@ -89,5 +89,15 @@
       "ケーキ2.png"
     ],
     "youtubeUrls": []
+  },
+  {
+    "id": 9,
+    "title": "ダイアモンド",
+    "date": "2026-2-21",
+    "description": "モデリング練習",
+    "images": [
+      "ダイアモンド.png"
+    ],
+    "youtubeUrls": []
   }
 ]
